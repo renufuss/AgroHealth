@@ -240,6 +240,20 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout_register_confirmPassword" />
 
+        <TextView
+            android:id="@+id/textView_register_errorText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Error Text"
+            android:textColor="@color/red"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout_register_confirmPassword"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="10dp"
+            tools:layout_editor_absoluteX="175dp"
+            tools:layout_editor_absoluteY="355dp" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

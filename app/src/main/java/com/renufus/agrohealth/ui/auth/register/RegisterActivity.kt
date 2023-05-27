@@ -1,6 +1,8 @@
 package com.renufus.agrohealth.ui.auth.register
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +20,7 @@ val registerModule = module {
 
 class RegisterActivity : AppCompatActivity() {
     private val binding by lazy { ActivityRegisterBinding.inflate(layoutInflater) }
+    private val delayLoading = 500L
     private val utility = GeneralUtility()
     private val viewModel: RegisterViewModel by viewModel<RegisterViewModel>()
 
@@ -43,8 +46,13 @@ class RegisterActivity : AppCompatActivity() {
         password: String,
         confirmPassword: String,
     ): Boolean {
+
+        binding.textViewRegisterErrorText.visibility = View.GONE
+        removeError()
+
+        val isValidEmail: Boolean = utility.validationEmail(email)
         val isInvalid =
-            (email.isEmpty() || username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || password.length < 8 || password != confirmPassword)
+            (email.isEmpty() || username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || password.length < 8 || password != confirmPassword || !isValidEmail)
 
         if (isInvalid) {
             if (email.isEmpty()) {
@@ -80,9 +88,10 @@ class RegisterActivity : AppCompatActivity() {
 
             val isPasswordNotEmpty: Boolean = password.isNotEmpty() && confirmPassword.isNotEmpty()
             if (isPasswordNotEmpty) {
-                if (password.equals(confirmPassword)) {
+                if (password != confirmPassword) {
                     binding.textInputLayoutRegisterPassword.helperText = "Passwords doesn't match"
-                    binding.textInputLayoutRegisterConfirmPassword.helperText = "Passwords doesn't match"
+                    binding.textInputLayoutRegisterConfirmPassword.helperText =
+                        "Passwords doesn't match"
                 } else {
                     binding.textInputLayoutRegisterPassword.helperText = ""
                     binding.textInputLayoutRegisterConfirmPassword.helperText = ""
@@ -90,7 +99,6 @@ class RegisterActivity : AppCompatActivity() {
             }
 
             if (email.isNotEmpty()) {
-                val isValidEmail: Boolean = utility.validationEmail(email)
                 if (!isValidEmail) {
                     binding.textInputLayoutRegisterEmail.helperText = "Your email is invalid"
                 } else {
@@ -103,6 +111,13 @@ class RegisterActivity : AppCompatActivity() {
         return true
     }
 
+    private fun removeError() {
+        binding.textInputLayoutRegisterEmail.helperText = ""
+        binding.textInputLayoutRegisterUsername.helperText = ""
+        binding.textInputLayoutRegisterPassword.helperText = ""
+        binding.textInputLayoutRegisterConfirmPassword.helperText = ""
+    }
+
     private fun register() {
         val email = binding.textInputEditTextRegisterEmail.text.toString()
         val username = binding.textInputEditTextRegisterUsername.text.toString()
@@ -112,19 +127,27 @@ class RegisterActivity : AppCompatActivity() {
         val registerValidation = registerValidation(email, username, password, confirmPassword)
 
         if (registerValidation) {
+            showLoading(true)
             viewModel.register(email, username, password)
 
-            showLoading(true)
-
-            viewModel.errorStatus.observe(this) {
-                if (it == false) {
-                    Toast.makeText(this, "You have successfully registered", Toast.LENGTH_SHORT)
-                        .show()
+            viewModel.errorStatus.removeObservers(this)
+            viewModel.errorStatus.observe(this) { error ->
+                if (error == false) {
+                    binding.textViewRegisterErrorText.visibility = View.GONE
+                    Toast.makeText(this, "You have successfully registered", Toast.LENGTH_SHORT).show()
                     utility.moveToAnotherActivity(this@RegisterActivity, LoginActivity::class.java)
                     finish()
                 } else {
-                    Toast.makeText(this, "An unknown error occurred", Toast.LENGTH_SHORT).show()
+                    viewModel.register.removeObservers(this)
+                    viewModel.register.observe(this) { response ->
+                        binding.textViewRegisterErrorText.visibility = View.VISIBLE
+                        binding.textViewRegisterErrorText.text = response.message
+                    }
                 }
+
+                Handler(Looper.getMainLooper()).postDelayed({
+                    showLoading(false)
+                }, delayLoading)
             }
         }
 
