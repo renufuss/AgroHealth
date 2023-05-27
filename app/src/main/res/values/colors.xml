@@ -5,6 +5,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#6B6B6B</color>
     <color name="green">#6AA470</color>
+    <color name="red">#FF0000</color>
     <color name="brown">#5B3A1A</color>
     <color name="transparent">#00FFFFFF</color>
     <color name="button_primary_color">#63C89D</color>

@@ -9,6 +9,7 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import java.util.regex.Pattern
 
 class GeneralUtility {
 
@@ -43,5 +44,13 @@ class GeneralUtility {
             button.startAnimation(animation)
             onClickAction.invoke()
         }
+    }
+
+    fun validationEmail(email: String): Boolean {
+        val pattern = Pattern.compile(
+            "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}\$",
+        )
+        val matcher = pattern.matcher(email)
+        return matcher.matches()
     }
 }
