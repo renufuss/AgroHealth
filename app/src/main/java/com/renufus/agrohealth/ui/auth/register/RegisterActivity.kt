@@ -20,7 +20,6 @@ val registerModule = module {
 
 class RegisterActivity : AppCompatActivity() {
     private val binding by lazy { ActivityRegisterBinding.inflate(layoutInflater) }
-    private val delayLoading = 500L
     private val utility = GeneralUtility()
     private val viewModel: RegisterViewModel by viewModel<RegisterViewModel>()
 
@@ -46,7 +45,6 @@ class RegisterActivity : AppCompatActivity() {
         password: String,
         confirmPassword: String,
     ): Boolean {
-
         binding.textViewRegisterErrorText.visibility = View.GONE
         removeError()
 
@@ -130,7 +128,6 @@ class RegisterActivity : AppCompatActivity() {
             showLoading(true)
             viewModel.register(email, username, password)
 
-            viewModel.errorStatus.removeObservers(this)
             viewModel.errorStatus.observe(this) { error ->
                 if (error == false) {
                     binding.textViewRegisterErrorText.visibility = View.GONE
@@ -138,7 +135,6 @@ class RegisterActivity : AppCompatActivity() {
                     utility.moveToAnotherActivity(this@RegisterActivity, LoginActivity::class.java)
                     finish()
                 } else {
-                    viewModel.register.removeObservers(this)
                     viewModel.register.observe(this) { response ->
                         binding.textViewRegisterErrorText.visibility = View.VISIBLE
                         binding.textViewRegisterErrorText.text = response.message
@@ -147,14 +143,14 @@ class RegisterActivity : AppCompatActivity() {
 
                 Handler(Looper.getMainLooper()).postDelayed({
                     showLoading(false)
-                }, delayLoading)
+                }, utility.delayLoading)
             }
         }
 
         return
     }
 
-    fun showLoading(loading: Boolean) {
+    private fun showLoading(loading: Boolean) {
         when (loading) {
             true -> {
                 binding.progressBarRegisterLoading.visibility = View.VISIBLE

@@ -8,13 +8,19 @@ import androidx.fragment.app.Fragment
 import com.renufus.agrohealth.databinding.FragmentProfileBinding
 import com.renufus.agrohealth.ui.auth.login.LoginActivity
 import com.renufus.agrohealth.utility.GeneralUtility
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.dsl.module
 
+val profileModule = module {
+    factory { ProfileFragment() }
+}
 class ProfileFragment : Fragment() {
 
     private lateinit var binding: FragmentProfileBinding
 
-    private var isLogin: Boolean = false
     private val utility = GeneralUtility()
+
+    private val viewModel: ProfileViewModel by viewModel<ProfileViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,9 +40,13 @@ class ProfileFragment : Fragment() {
     }
 
     private fun checkLogin() {
-        if (!isLogin) {
+        val loginStatus = viewModel.userPreferences.getStatusLogin()
+        if (!loginStatus) {
             val activity = requireActivity()
             utility.moveToAnotherActivity(activity, LoginActivity::class.java)
+        } else {
+            binding.textViewProfileEmail.text = viewModel.userPreferences.getEmail()
+            binding.textViewProfileUsername.text = viewModel.userPreferences.getUsername()
         }
     }
 }

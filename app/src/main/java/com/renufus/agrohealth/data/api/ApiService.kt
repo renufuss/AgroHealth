@@ -6,12 +6,10 @@ import com.renufus.agrohealth.data.model.LoginResponse
 import com.renufus.agrohealth.data.model.RegistrationRequest
 import retrofit2.Response
 import retrofit2.http.Body
-import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 
 interface ApiService {
 
-    @FormUrlEncoded
     @POST("api/user/login")
     suspend fun login(@Body requestBody: LoginRequest): Response<LoginResponse>
 

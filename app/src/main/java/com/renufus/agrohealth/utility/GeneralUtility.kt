@@ -13,6 +13,8 @@ import java.util.regex.Pattern
 
 class GeneralUtility {
 
+    val delayLoading = 500L
+
     fun moveToAnotherActivity(context: Context, destinationActivity: Class<*>, flags: Int? = null) {
         val intent = Intent(context, destinationActivity)
         flags?.let { intent.flags = it }

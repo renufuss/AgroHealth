@@ -60,6 +60,7 @@
            android:id="@+id/textInputLayout_login_email"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
+           app:helperTextTextColor="@color/red"
            android:layout_marginStart="32dp"
            android:layout_marginEnd="32dp"
            android:hint="@string/your_email"
@@ -96,6 +97,7 @@
            android:id="@+id/textInputLayout_login_password"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
+           app:helperTextTextColor="@color/red"
            android:layout_marginStart="32dp"
            android:layout_marginEnd="32dp"
            android:hint="@string/your_password"
@@ -193,6 +195,17 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar_login_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
