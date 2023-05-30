@@ -63,7 +63,6 @@ class CameraActivity : AppCompatActivity() {
 
         customStatusBar()
         initButton()
-
     }
 
     public override fun onResume() {

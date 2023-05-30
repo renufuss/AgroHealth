@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.renufus.agrohealth.data.model.GeneralResponse
-import com.renufus.agrohealth.repositories.AuthRepository
+import com.renufus.agrohealth.repositories.UserRepository
 import com.renufus.agrohealth.utility.SingleEventLiveData
 import kotlinx.coroutines.launch
 import org.koin.dsl.module
@@ -13,7 +13,7 @@ val registerViewModelModule = module {
     factory { RegisterViewModel(get()) }
 }
 
-class RegisterViewModel(private val repository: AuthRepository) : ViewModel() {
+class RegisterViewModel(private val repository: UserRepository) : ViewModel() {
 
     private val gson = Gson()
     val errorStatus by lazy { SingleEventLiveData<Boolean>() }

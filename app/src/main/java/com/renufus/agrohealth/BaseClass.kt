@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import com.renufus.agrohealth.data.api.networkModule
 import com.renufus.agrohealth.data.preferences.userPreferenceModule
-import com.renufus.agrohealth.repositories.authRepositoryModule
+import com.renufus.agrohealth.repositories.userRepositoryModule
 import com.renufus.agrohealth.ui.auth.login.loginModule
 import com.renufus.agrohealth.ui.auth.login.loginViewModelModule
 import com.renufus.agrohealth.ui.auth.register.registerModule
@@ -25,7 +25,7 @@ class BaseClass : Application() {
             androidContext(this@BaseClass)
             modules(
                 networkModule,
-                authRepositoryModule,
+                userRepositoryModule,
                 registerViewModelModule,
                 registerModule,
                 loginViewModelModule,

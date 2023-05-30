@@ -94,21 +94,19 @@ class LoginActivity() : AppCompatActivity() {
 
             viewModel.login(email, password)
 
-            viewModel.errorStatus.observe(this) { error ->
-                if (!error) {
+            viewModel.errorStatus.observe(this) { errorStatus ->
+                if (!errorStatus) {
                     viewModel.login.observe(this) { data ->
                         val token = data.user[0].token
                         viewModel.userPreferences.setToken(token)
                         viewModel.userPreferences.setStatusLogin(true)
-                        viewModel.userPreferences.setEmail(email)
-                        viewModel.userPreferences.setUsername(data.user[0].username)
 
                         utility.moveToAnotherActivity(this@LoginActivity, MainActivity::class.java)
                         finishAffinity()
                     }
                 } else {
-                    viewModel.errorMessage.observe(this) {
-                        Toast.makeText(this@LoginActivity, it.message, Toast.LENGTH_SHORT).show()
+                    viewModel.errorMessage.observe(this) {error ->
+                        Toast.makeText(this@LoginActivity, error.message, Toast.LENGTH_SHORT).show()
                     }
                 }
 

@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
+import com.renufus.agrohealth.R
 import com.renufus.agrohealth.databinding.FragmentProfileBinding
 import com.renufus.agrohealth.ui.auth.login.LoginActivity
 import com.renufus.agrohealth.utility.GeneralUtility
@@ -22,6 +25,8 @@ class ProfileFragment : Fragment() {
 
     private val viewModel: ProfileViewModel by viewModel<ProfileViewModel>()
 
+    private val refreshTokenStatus = MutableLiveData<Boolean>()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -37,6 +42,10 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         checkLogin()
+
+        utility.setButtonClickAnimation(binding.imageViewProfileButtonLogout, R.anim.button_click_animation) {
+            logout()
+        }
     }
 
     private fun checkLogin() {
@@ -45,8 +54,43 @@ class ProfileFragment : Fragment() {
             val activity = requireActivity()
             utility.moveToAnotherActivity(activity, LoginActivity::class.java)
         } else {
-            binding.textViewProfileEmail.text = viewModel.userPreferences.getEmail()
-            binding.textViewProfileUsername.text = viewModel.userPreferences.getUsername()
+            getProfile()
         }
+    }
+
+    private fun getProfile() {
+        viewModel.refreshToken()
+
+        viewModel.errorTokenStatus.observe(viewLifecycleOwner) { errorTokenStatus ->
+            if (!errorTokenStatus) {
+                viewModel.getProfile()
+                viewModel.errorStatus.observe(viewLifecycleOwner) { errorDataStatus ->
+                    if (!errorDataStatus) {
+                        viewModel.profile.observe(viewLifecycleOwner) { profile ->
+                            binding.textViewProfileEmail.text = profile.data.email
+                            binding.textViewProfileUsername.text = profile.data.username
+                        }
+                    } else {
+                        viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
+                            Toast.makeText(context, error.message, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            } else {
+                viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
+                    Toast.makeText(context, error.message, Toast.LENGTH_SHORT).show()
+                    logout()
+                }
+            }
+        }
+    }
+
+    private fun logout() {
+        viewModel.userPreferences.setStatusLogin(false)
+        viewModel.userPreferences.setEmail("emailData")
+        viewModel.userPreferences.setUsername("usernameData")
+        viewModel.userPreferences.setToken("tokenApi")
+
+        utility.moveToAnotherActivity(requireContext(), LoginActivity::class.java)
     }
 }
