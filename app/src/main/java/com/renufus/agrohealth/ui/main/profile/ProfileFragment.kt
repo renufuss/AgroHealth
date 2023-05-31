@@ -98,7 +98,7 @@ class ProfileFragment : Fragment() {
                 binding.imageViewProfileImageProfile.visibility = View.INVISIBLE
                 binding.textViewProfileEmail.visibility = View.INVISIBLE
                 binding.textViewProfileUsername.visibility = View.INVISIBLE
-                binding.imageViewProfileButtonLogout.visibility = View.VISIBLE
+                binding.imageViewProfileButtonLogout.visibility = View.INVISIBLE
             }
 
             else -> {

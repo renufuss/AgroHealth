@@ -24,10 +24,10 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton_main_camera"
+        style="?attr/floatingActionButtonSmallStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="177dp"
-        tools:layout_editor_absoluteY="582dp"
+        android:layout_marginBottom="-10dp"
         android:src="@drawable/ic_camera"
         app:tint="@color/white"
         app:backgroundTint="@color/button_primary_color"
