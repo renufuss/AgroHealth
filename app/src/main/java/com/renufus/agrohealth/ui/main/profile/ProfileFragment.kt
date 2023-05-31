@@ -62,6 +62,7 @@ class ProfileFragment : Fragment() {
         viewModel.refreshToken()
 
         viewModel.errorTokenStatus.observe(viewLifecycleOwner) { errorTokenStatus ->
+            showLoading(true)
             if (!errorTokenStatus) {
                 viewModel.getProfile()
                 viewModel.errorStatus.observe(viewLifecycleOwner) { errorDataStatus ->
@@ -72,15 +73,36 @@ class ProfileFragment : Fragment() {
                         }
                     } else {
                         viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
-                            Toast.makeText(context, error.message, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
             } else {
                 viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
-                    Toast.makeText(context, error.message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
                     logout()
                 }
+            }
+            showLoading(false)
+        }
+    }
+
+    private fun showLoading(loading: Boolean) {
+        when (loading) {
+            true -> {
+                binding.progressProfileLoading.visibility = View.VISIBLE
+                binding.imageViewProfileImageProfile.visibility = View.INVISIBLE
+                binding.textViewProfileEmail.visibility = View.INVISIBLE
+                binding.textViewProfileUsername.visibility = View.INVISIBLE
+                binding.imageViewProfileButtonLogout.visibility = View.VISIBLE
+            }
+
+            else -> {
+                binding.progressProfileLoading.visibility = View.GONE
+                binding.imageViewProfileImageProfile.visibility = View.VISIBLE
+                binding.textViewProfileEmail.visibility = View.VISIBLE
+                binding.textViewProfileUsername.visibility = View.VISIBLE
+                binding.imageViewProfileButtonLogout.visibility = View.VISIBLE
             }
         }
     }

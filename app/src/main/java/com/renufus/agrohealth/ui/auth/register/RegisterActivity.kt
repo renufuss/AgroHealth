@@ -129,15 +129,15 @@ class RegisterActivity : AppCompatActivity() {
             viewModel.register(email, username, password)
 
             viewModel.errorStatus.observe(this) { error ->
-                if (error == false) {
+                if (!error) {
                     binding.textViewRegisterErrorText.visibility = View.GONE
                     Toast.makeText(this, "You have successfully registered", Toast.LENGTH_SHORT).show()
                     utility.moveToAnotherActivity(this@RegisterActivity, LoginActivity::class.java)
                     finish()
                 } else {
-                    viewModel.register.observe(this) { response ->
+                    viewModel.errorMessage.observe(this) { response ->
                         binding.textViewRegisterErrorText.visibility = View.VISIBLE
-                        binding.textViewRegisterErrorText.text = response.message
+                        binding.textViewRegisterErrorText.text = response
                     }
                 }
 

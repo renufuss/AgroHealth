@@ -10,6 +10,7 @@ import com.renufus.agrohealth.repositories.UserRepository
 import com.renufus.agrohealth.utility.SingleEventLiveData
 import kotlinx.coroutines.launch
 import org.koin.dsl.module
+import java.lang.Exception
 
 val profileViewModelModule = module {
     factory { ProfileViewModel(get(), get()) }
@@ -18,37 +19,49 @@ class ProfileViewModel(private val repository: UserRepository, val userPreferenc
     private val gson = Gson()
     val errorTokenStatus by lazy { SingleEventLiveData<Boolean>() }
     val errorStatus by lazy { SingleEventLiveData<Boolean>() }
-    val errorMessage by lazy { SingleEventLiveData<GeneralResponse>() }
+    val errorMessage by lazy { SingleEventLiveData<String>() }
     val profile by lazy { SingleEventLiveData<ProfileResponse>() }
 
     fun getProfile() {
         viewModelScope.launch {
-            val response = repository.getProfile(userPreferences.getToken()!!)
+            try {
+                val response = repository.getProfile(userPreferences.getToken()!!)
 
-            if (response.isSuccessful) {
-                profile.setValue(response.body()!!)
-                errorStatus.setValue(false)
-            } else {
-                val errorBody = response.errorBody()?.string()
-                val errorResponse = gson.fromJson(errorBody, GeneralResponse::class.java)
-                errorMessage.setValue(errorResponse)
+                if (response.isSuccessful) {
+                    profile.setValue(response.body()!!)
+                    errorStatus.setValue(false)
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    val errorResponse = gson.fromJson(errorBody, GeneralResponse::class.java)
+                    errorMessage.setValue(errorResponse.message)
+                    errorStatus.setValue(true)
+                }
+            } catch (e: Exception) {
                 errorStatus.setValue(true)
+                errorTokenStatus.setValue(true)
+                errorMessage.setValue("A network problem occurred")
             }
         }
     }
 
     fun refreshToken() {
         viewModelScope.launch {
-            val response = repository.refreshToken(userPreferences.getToken()!!)
+            try {
+                val response = repository.refreshToken(userPreferences.getToken()!!)
 
-            if (response.isSuccessful) {
-                userPreferences.setToken(response.body()!!.refreshToken)
-                errorTokenStatus.setValue(false)
-            } else {
-                val errorBody = response.errorBody()?.string()
-                val errorResponse = gson.fromJson(errorBody, GeneralResponse::class.java)
-                errorMessage.setValue(errorResponse)
+                if (response.isSuccessful) {
+                    userPreferences.setToken(response.body()!!.refreshToken)
+                    errorTokenStatus.setValue(false)
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    val errorResponse = gson.fromJson(errorBody, GeneralResponse::class.java)
+                    errorMessage.setValue(errorResponse.message)
+                    errorTokenStatus.setValue(true)
+                }
+            } catch (e: Exception) {
+                errorStatus.setValue(true)
                 errorTokenStatus.setValue(true)
+                errorMessage.setValue("A network problem occurred")
             }
         }
     }

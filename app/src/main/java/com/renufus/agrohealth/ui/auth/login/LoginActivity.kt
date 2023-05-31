@@ -96,6 +96,7 @@ class LoginActivity() : AppCompatActivity() {
 
             viewModel.errorStatus.observe(this) { errorStatus ->
                 if (!errorStatus) {
+                    binding.textViewLoginErrorText.visibility = View.GONE
                     viewModel.login.observe(this) { data ->
                         val token = data.user[0].token
                         viewModel.userPreferences.setToken(token)
@@ -106,7 +107,8 @@ class LoginActivity() : AppCompatActivity() {
                     }
                 } else {
                     viewModel.errorMessage.observe(this) {error ->
-                        Toast.makeText(this@LoginActivity, error.message, Toast.LENGTH_SHORT).show()
+                        binding.textViewLoginErrorText.visibility = View.VISIBLE
+                        binding.textViewLoginErrorText.text = error
                     }
                 }
 
