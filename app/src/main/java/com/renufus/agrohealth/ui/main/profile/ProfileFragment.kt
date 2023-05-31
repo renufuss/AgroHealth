@@ -1,6 +1,8 @@
 package com.renufus.agrohealth.ui.main.profile
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -83,7 +85,9 @@ class ProfileFragment : Fragment() {
                     logout()
                 }
             }
-            showLoading(false)
+            Handler(Looper.getMainLooper()).postDelayed({
+                showLoading(false)
+            }, utility.delayLoading)
         }
     }
 
