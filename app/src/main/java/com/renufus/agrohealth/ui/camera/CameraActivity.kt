@@ -19,7 +19,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.renufus.agrohealth.R
-import com.renufus.agrohealth.data.model.CameraModel
+import com.renufus.agrohealth.data.model.camera.CameraModel
 import com.renufus.agrohealth.databinding.ActivityCameraBinding
 import com.renufus.agrohealth.ui.camera.process.ProcessCameraActivity
 import com.renufus.agrohealth.utility.GeneralUtility

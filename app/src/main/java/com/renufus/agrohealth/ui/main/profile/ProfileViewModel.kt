@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.renufus.agrohealth.data.model.GeneralResponse
-import com.renufus.agrohealth.data.model.ProfileResponse
+import com.renufus.agrohealth.data.model.auth.ProfileResponse
 import com.renufus.agrohealth.data.preferences.UserPreferences
 import com.renufus.agrohealth.repositories.UserRepository
 import com.renufus.agrohealth.utility.SingleEventLiveData

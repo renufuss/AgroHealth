@@ -1,4 +1,4 @@
-package com.renufus.agrohealth.data.model
+package com.renufus.agrohealth.data.model.camera
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

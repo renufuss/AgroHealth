@@ -1,11 +1,12 @@
 package com.renufus.agrohealth.data.api
 
+import com.renufus.agrohealth.data.model.articles.ArticlesResponse
 import com.renufus.agrohealth.data.model.GeneralResponse
-import com.renufus.agrohealth.data.model.LoginRequest
-import com.renufus.agrohealth.data.model.LoginResponse
-import com.renufus.agrohealth.data.model.ProfileResponse
-import com.renufus.agrohealth.data.model.RefreshTokenResponse
-import com.renufus.agrohealth.data.model.RegistrationRequest
+import com.renufus.agrohealth.data.model.auth.LoginRequest
+import com.renufus.agrohealth.data.model.auth.LoginResponse
+import com.renufus.agrohealth.data.model.auth.ProfileResponse
+import com.renufus.agrohealth.data.model.auth.RefreshTokenResponse
+import com.renufus.agrohealth.data.model.auth.RegistrationRequest
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -29,4 +30,7 @@ interface ApiService {
     suspend fun refreshToken(
         @Header("Authorization") token: String,
     ): Response<RefreshTokenResponse>
+
+    @GET("api/articles")
+    suspend fun getArticles(): Response<ArticlesResponse>
 }

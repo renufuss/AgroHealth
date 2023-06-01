@@ -1,4 +1,4 @@
-package com.renufus.agrohealth.data.model
+package com.renufus.agrohealth.data.model.auth
 
 data class LoginRequest(
     val email: String,

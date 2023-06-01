@@ -2,11 +2,11 @@ package com.renufus.agrohealth.repositories
 
 import com.renufus.agrohealth.data.api.ApiService
 import com.renufus.agrohealth.data.model.GeneralResponse
-import com.renufus.agrohealth.data.model.LoginRequest
-import com.renufus.agrohealth.data.model.LoginResponse
-import com.renufus.agrohealth.data.model.ProfileResponse
-import com.renufus.agrohealth.data.model.RefreshTokenResponse
-import com.renufus.agrohealth.data.model.RegistrationRequest
+import com.renufus.agrohealth.data.model.auth.LoginRequest
+import com.renufus.agrohealth.data.model.auth.LoginResponse
+import com.renufus.agrohealth.data.model.auth.ProfileResponse
+import com.renufus.agrohealth.data.model.auth.RefreshTokenResponse
+import com.renufus.agrohealth.data.model.auth.RegistrationRequest
 import org.koin.dsl.module
 import retrofit2.Response
 

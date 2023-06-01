@@ -4,7 +4,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.renufus.agrohealth.data.model.CameraModel
+import com.renufus.agrohealth.data.model.camera.CameraModel
 import com.renufus.agrohealth.databinding.ActivityProcessCameraBinding
 import com.renufus.agrohealth.utility.GeneralUtility
 import com.renufus.agrohealth.utility.rotateBitmap

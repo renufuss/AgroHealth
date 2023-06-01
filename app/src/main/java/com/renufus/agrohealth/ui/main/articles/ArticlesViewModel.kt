@@ -1,32 +1,32 @@
-package com.renufus.agrohealth.ui.auth.login
+package com.renufus.agrohealth.ui.main.articles
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.renufus.agrohealth.data.model.GeneralResponse
-import com.renufus.agrohealth.data.model.auth.LoginResponse
-import com.renufus.agrohealth.data.preferences.UserPreferences
-import com.renufus.agrohealth.repositories.UserRepository
+import com.renufus.agrohealth.data.model.articles.ArticlesResponse
+import com.renufus.agrohealth.repositories.ArticleRepository
 import com.renufus.agrohealth.utility.SingleEventLiveData
 import kotlinx.coroutines.launch
 import org.koin.dsl.module
 import java.lang.Exception
 
-val loginViewModelModule = module {
-    factory { LoginViewModel(get(), get()) }
+val articleViewModelModule = module {
+    factory { ArticlesViewModel(get()) }
 }
-class LoginViewModel(private val repository: UserRepository, val userPreferences: UserPreferences) : ViewModel() {
+class ArticlesViewModel(private val repository: ArticleRepository) : ViewModel() {
     private val gson = Gson()
     val errorStatus by lazy { SingleEventLiveData<Boolean>() }
     val errorMessage by lazy { SingleEventLiveData<String>() }
-    val login by lazy { SingleEventLiveData<LoginResponse>() }
+    val articles by lazy { SingleEventLiveData<ArticlesResponse>() }
 
-    fun login(email: String, password: String) {
+    fun getArticles() {
         viewModelScope.launch {
             try {
-                val response = repository.login(email, password)
+                val response = repository.getArticles()
+
                 if (response.isSuccessful) {
-                    login.setValue(response.body()!!)
+                    articles.setValue(response.body()!!)
                     errorStatus.setValue(false)
                 } else {
                     val errorBody = response.errorBody()?.string()

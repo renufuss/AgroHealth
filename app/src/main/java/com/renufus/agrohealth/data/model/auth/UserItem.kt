@@ -1,4 +1,4 @@
-package com.renufus.agrohealth.data.model
+package com.renufus.agrohealth.data.model.auth
 
 import com.google.gson.annotations.SerializedName
 
