@@ -5,8 +5,8 @@ import com.google.gson.annotations.SerializedName
 data class ArticlesIntroItem(
 
     @field:SerializedName("data")
-	val data: List<ArticlesItem?>? = null,
+    val data: List<ArticlesItem>,
 
     @field:SerializedName("length")
-	val length: Int? = null
+    val length: Int,
 )

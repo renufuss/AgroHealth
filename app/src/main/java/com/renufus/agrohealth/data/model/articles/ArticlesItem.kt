@@ -3,31 +3,18 @@ package com.renufus.agrohealth.data.model.articles
 import com.google.gson.annotations.SerializedName
 
 data class ArticlesItem(
-
-    @field:SerializedName("articles_farming")
-    val articlesFarming: List<ArticlesFarmingItem?>? = null,
-
-    @field:SerializedName("articles_intro")
-    val articlesIntro: List<ArticlesIntroItem?>? = null,
-
-    @field:SerializedName("articles_business")
-    val articlesBusiness: List<ArticlesBusinessItem?>? = null,
-
-    @field:SerializedName("articles_history")
-    val articlesHistory: List<ArticlesHistoryItem?>? = null,
-
     @field:SerializedName("id")
-    val id: Int? = null,
-
-    @field:SerializedName("_id")
-    val _id: String? = null,
+    val id: Int,
 
     @field:SerializedName("title")
-    val title: String? = null,
+    val title: String,
 
     @field:SerializedName("gambar")
-    val gambar: String? = null,
+    val gambar: String,
 
     @field:SerializedName("url")
-    val url: String? = null,
+    val url: String,
+
+    @field:SerializedName("_id")
+    val _id: String,
 )

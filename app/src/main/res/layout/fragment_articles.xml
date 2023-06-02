@@ -21,7 +21,7 @@
         tools:layout_editor_absoluteY="4dp" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list_category"
+        android:id="@+id/recyclerView_articles_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipToPadding="false"
@@ -30,10 +30,9 @@
         android:paddingEnd="5dp"
         android:layout_marginTop="10dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/imageView_article_topLogo"
+        app:layout_constraintStart_toStartOf="@+id/imageView_article_topLogo"
         app:layout_constraintTop_toBottomOf="@+id/imageView_article_topLogo"
-        tools:layout_editor_absoluteY="109dp"
         tools:listitem="@layout/item_category" />
 
     <ProgressBar
@@ -44,24 +43,24 @@
         android:indeterminate="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/list_category"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerView_articles_category"
         />
 
     <ImageView
-        tools:visibility="gone"
-        android:id="@+id/image_alert"
+        tools:visibility="visible"
+        android:id="@+id/imageView_article_alert"
         android:layout_width="100dp"
         android:layout_height="100dp"
         app:tint="@android:color/darker_gray"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progress_top"
-        app:layout_constraintBottom_toTopOf="@+id/text_alert"
+        app:layout_constraintBottom_toTopOf="@+id/textView_article_alert"
         app:layout_constraintVertical_chainStyle="packed"
         />
     <TextView
-        tools:visibility="gone"
-        android:id="@+id/text_alert"
+        tools:visibility="visible"
+        android:id="@+id/textView_article_alert"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -70,7 +69,7 @@
         android:textColor="@android:color/darker_gray"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_alert"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_article_alert"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:ignore="HardcodedText" />
 
@@ -80,12 +79,12 @@
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_alert"
+        app:layout_constraintTop_toBottomOf="@+id/textView_article_alert"
         app:layout_constraintBottom_toTopOf="@+id/progress_bottom"
         >
         <androidx.recyclerview.widget.RecyclerView
             tools:visibility="visible"
-            android:id="@+id/list_news"
+            android:id="@+id/recyclerView_articles_item"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:listitem="@layout/item_headline"
