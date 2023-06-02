@@ -36,7 +36,7 @@
         tools:listitem="@layout/item_category" />
 
     <ProgressBar
-        android:id="@+id/progress_top"
+        android:id="@+id/progressBar_article_top"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
@@ -44,6 +44,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recyclerView_articles_category"
+        android:visibility="invisible"
         />
 
     <ImageView
@@ -51,10 +52,11 @@
         android:id="@+id/imageView_article_alert"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:src="@drawable/img_alert_news"
         app:tint="@android:color/darker_gray"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progress_top"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar_article_top"
         app:layout_constraintBottom_toTopOf="@+id/textView_article_alert"
         app:layout_constraintVertical_chainStyle="packed"
         />
@@ -74,7 +76,7 @@
         tools:ignore="HardcodedText" />
 
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/scroll"
+        android:id="@+id/nestedScroll_article"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -96,6 +98,7 @@
     <ProgressBar
         android:id="@+id/progress_bottom"
         android:layout_width="0dp"
+        android:visibility="gone"
         android:layout_height="wrap_content"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:indeterminate="true"

@@ -35,6 +35,7 @@ class CategoryAdapter(
             listener.onClick(category)
             setColor(holder.binding.textViewCategoryItemName)
         }
+        setColor(items[0])
     }
 
     private fun setColor(textView: TextView) {

@@ -3,6 +3,8 @@ package com.renufus.agrohealth.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.renufus.agrohealth.R
 import com.renufus.agrohealth.data.model.articles.ArticlesItem
 import com.renufus.agrohealth.databinding.ItemArticleBinding
 
@@ -26,12 +28,19 @@ class ArticleAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val article = articles[position]
         holder.binding.textViewArticleItemTitle.text = article.title
+        Glide.with(holder.binding.imageViewArticleItemThumbnail)
+            .load(article.gambar)
+            .placeholder(R.drawable.text_logo)
+            .error(R.drawable.text_logo)
+            .centerCrop()
+            .into(holder.binding.imageViewArticleItemThumbnail)
+
         holder.itemView.setOnClickListener {
             listener.onClick(article)
         }
     }
 
-    fun add(data: List<ArticlesItem>){
+    fun add(data: List<ArticlesItem>) {
         articles.clear()
         articles.addAll(data)
         notifyDataSetChanged()

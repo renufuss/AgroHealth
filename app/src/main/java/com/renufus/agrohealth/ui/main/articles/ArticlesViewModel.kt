@@ -22,6 +22,7 @@ class ArticlesViewModel(private val repository: ArticleRepository) : ViewModel()
     val errorStatus by lazy { SingleEventLiveData<Boolean>() }
     val errorMessage by lazy { SingleEventLiveData<String>() }
     val articles by lazy { MutableLiveData<ArticlesResponse>() }
+
     val articleItem by lazy { MutableLiveData<List<ArticlesItem>>() }
 
     private val isIntro = 1
