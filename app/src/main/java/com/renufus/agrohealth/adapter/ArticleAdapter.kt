@@ -1,40 +1,78 @@
 package com.renufus.agrohealth.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.renufus.agrohealth.R
 import com.renufus.agrohealth.data.model.articles.ArticlesItem
 import com.renufus.agrohealth.databinding.ItemArticleBinding
+import com.renufus.agrohealth.databinding.ItemHeadlineBinding
+
+private const val HEADLINE = 1
+private const val BASIC = 2
 
 class ArticleAdapter(
     val articles: ArrayList<ArticlesItem>,
     val listener: OnAdapterListener,
-) : RecyclerView.Adapter<ArticleAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    class ViewHolder(val binding: ItemArticleBinding) : RecyclerView.ViewHolder(binding.root)
+    companion object {
+        var VIEW_TYPES = HEADLINE
+    }
+
+    class ViewHolderHeadline(val binding: ItemHeadlineBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(article: ArticlesItem) {
+            binding.textViewHeadlineItemTitle.text = article.title
+            Glide.with(binding.imageViewHeadlineItemThumbnail)
+                .load(article.gambar)
+                .placeholder(R.drawable.text_logo)
+                .error(R.drawable.text_logo)
+                .centerCrop()
+                .into(binding.imageViewHeadlineItemThumbnail)
+        }
+    }
+
+    class ViewHolderBasic(val binding: ItemArticleBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(article: ArticlesItem) {
+            binding.textViewArticleItemTitle.text = article.title
+            Glide.with(binding.imageViewArticleItemThumbnail)
+                .load(article.gambar)
+                .placeholder(R.drawable.text_logo)
+                .error(R.drawable.text_logo)
+                .centerCrop()
+                .into(binding.imageViewArticleItemThumbnail)
+        }
+    }
 
     interface OnAdapterListener {
         fun onClick(article: ArticlesItem)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
-        ItemArticleBinding.inflate(LayoutInflater.from(parent.context), parent, false),
-    )
+    override fun getItemViewType(position: Int) = VIEW_TYPES
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return if (viewType == HEADLINE) {
+            ViewHolderHeadline(
+                ItemHeadlineBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+            )
+        } else {
+            ViewHolderBasic(
+                ItemArticleBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+            )
+        }
+    }
 
     override fun getItemCount() = articles.size
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val article = articles[position]
-        holder.binding.textViewArticleItemTitle.text = article.title
-        Glide.with(holder.binding.imageViewArticleItemThumbnail)
-            .load(article.gambar)
-            .placeholder(R.drawable.text_logo)
-            .error(R.drawable.text_logo)
-            .centerCrop()
-            .into(holder.binding.imageViewArticleItemThumbnail)
-
+        if (VIEW_TYPES == HEADLINE) {
+            (holder as ViewHolderHeadline).bind(article)
+        } else if(VIEW_TYPES == BASIC) {
+            (holder as ViewHolderBasic).bind(article)
+        }
         holder.itemView.setOnClickListener {
             listener.onClick(article)
         }

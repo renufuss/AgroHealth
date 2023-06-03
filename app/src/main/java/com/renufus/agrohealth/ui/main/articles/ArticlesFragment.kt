@@ -52,6 +52,15 @@ class ArticlesFragment : Fragment() {
     private fun getArticles(category: Int) {
         viewModel.getArticles(category)
 
+        val isIntro = 1
+        val isHeadline = 1
+        val isBasic = 2
+        if(category == isIntro){
+            ArticleAdapter.VIEW_TYPES = isHeadline
+        }else{
+            ArticleAdapter.VIEW_TYPES = isBasic
+        }
+
         viewModel.errorStatus.observe(viewLifecycleOwner) { errorStatus ->
             showLoading(true)
             if (!errorStatus) {
