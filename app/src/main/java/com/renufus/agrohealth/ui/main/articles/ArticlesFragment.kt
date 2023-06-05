@@ -8,12 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import android.content.Intent
 import com.renufus.agrohealth.R
 import com.renufus.agrohealth.adapter.ArticleAdapter
 import com.renufus.agrohealth.adapter.CategoryAdapter
 import com.renufus.agrohealth.data.model.articles.ArticlesItem
 import com.renufus.agrohealth.data.model.articles.CategoryItem
 import com.renufus.agrohealth.databinding.FragmentArticlesBinding
+import com.renufus.agrohealth.ui.camera.process.ProcessCameraActivity
+import com.renufus.agrohealth.ui.main.articles.detail.DetailActivity
 import com.renufus.agrohealth.utility.GeneralUtility
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.dsl.module
@@ -102,6 +105,10 @@ class ArticlesFragment : Fragment() {
             arrayListOf(),
             object : ArticleAdapter.OnAdapterListener {
                 override fun onClick(article: ArticlesItem) {
+                    val intent = Intent(requireContext(), DetailActivity::class.java)
+                    intent.putExtra(DetailActivity.URL, article.url)
+
+                    startActivity(intent)
                 }
             },
         )

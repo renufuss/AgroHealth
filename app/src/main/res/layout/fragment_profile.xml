@@ -13,11 +13,11 @@
 
         <ImageView
             android:id="@+id/imageView_profile_topLogo"
-            android:layout_width="182dp"
-            android:layout_height="128dp"
+            android:layout_width="105dp"
+            android:layout_height="66dp"
             android:layout_marginTop="10dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/logo_with_text"
+            android:src="@drawable/text_logo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -66,8 +66,8 @@
 
         <ImageView
             android:id="@+id/imageView_profile_buttonLogout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="10dp"
             android:src="@drawable/logout_button"

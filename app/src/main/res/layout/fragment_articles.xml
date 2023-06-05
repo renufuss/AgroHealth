@@ -9,11 +9,11 @@
 
     <ImageView
         android:id="@+id/imageView_article_topLogo"
-        android:layout_width="182dp"
-        android:layout_height="128dp"
+        android:layout_width="105dp"
+        android:layout_height="66dp"
         android:layout_marginTop="10dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/logo_with_text"
+        android:src="@drawable/text_logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
