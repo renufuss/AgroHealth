@@ -1,5 +1,6 @@
 package com.renufus.agrohealth.ui.main
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -20,6 +21,7 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
         binding.bottomNavigationMain.setupWithNavController(navController)
 
+        utility.setStatusBarColor(this@MainActivity, Color.WHITE)
         binding.floatingActionButtonMainCamera.setOnClickListener {
             utility.moveToAnotherActivity(this@MainActivity, CameraActivity::class.java)
         }

@@ -8,16 +8,27 @@
 
     <ImageView
         android:id="@+id/imageView_processCamera_topLogo"
-        android:layout_width="182dp"
-        android:layout_height="128dp"
-        android:layout_marginTop="10dp"
+        android:layout_width="160dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="5dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/logo_with_text"
+        app:layout_constraintHorizontal_bias="0.45"
+        android:src="@drawable/logo_with_text_landscape"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="114dp"
         tools:layout_editor_absoluteY="4dp" />
+
+    <ImageView
+        android:id="@+id/imageView_processCamera_buttonBack"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="15dp"
+        android:src="@drawable/back_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imageView_processCamera_preview"

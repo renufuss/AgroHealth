@@ -4,6 +4,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.renufus.agrohealth.R
 import com.renufus.agrohealth.data.model.camera.CameraModel
 import com.renufus.agrohealth.databinding.ActivityProcessCameraBinding
 import com.renufus.agrohealth.utility.GeneralUtility
@@ -18,7 +19,11 @@ class ProcessCameraActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         renderImage()
-        utility.setStatusBarColor(this@ProcessCameraActivity, Color.TRANSPARENT)
+        utility.setStatusBarColor(this@ProcessCameraActivity, Color.WHITE)
+
+        utility.setButtonClickAnimation(binding.imageViewProcessCameraButtonBack, R.anim.button_click_animation){
+            finish()
+        }
     }
 
     private fun renderImage() {
