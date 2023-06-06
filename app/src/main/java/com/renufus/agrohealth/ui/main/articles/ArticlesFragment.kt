@@ -1,5 +1,6 @@
 package com.renufus.agrohealth.ui.main.articles
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -8,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import android.content.Intent
 import com.renufus.agrohealth.R
 import com.renufus.agrohealth.adapter.ArticleAdapter
 import com.renufus.agrohealth.adapter.CategoryAdapter
@@ -29,8 +29,6 @@ class ArticlesFragment : Fragment() {
     private lateinit var binding: FragmentArticlesBinding
     private val viewModel: ArticlesViewModel by viewModel<ArticlesViewModel>()
     private val utility = GeneralUtility()
-
-    private lateinit var article: List<ArticlesItem>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,9 +55,9 @@ class ArticlesFragment : Fragment() {
         val isIntro = 1
         val isHeadline = 1
         val isBasic = 2
-        if(category == isIntro){
+        if (category == isIntro) {
             ArticleAdapter.VIEW_TYPES = isHeadline
-        }else{
+        } else {
             ArticleAdapter.VIEW_TYPES = isBasic
         }
 

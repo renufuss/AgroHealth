@@ -55,4 +55,17 @@ class GeneralUtility {
         val matcher = pattern.matcher(email)
         return matcher.matches()
     }
+
+    fun prettyCount(number: Int): String {
+        if (number < 1000) {
+            return number.toString()
+        }
+
+        val suffixes = listOf("", "k", "M", "B", "T")
+        val magnitude = (Math.log10(number.toDouble()) / 3).toInt()
+        val scaledNumber = number / Math.pow(10.0, (magnitude * 3).toDouble())
+        val decimalPlaces = if (scaledNumber < 10) 1 else 0
+
+        return String.format("%.${decimalPlaces}f%s", scaledNumber, suffixes[magnitude])
+    }
 }
