@@ -36,91 +36,6 @@
         />
 
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_forum_newPostBorder"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="5dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/progressBar_forum_loading"
-            android:background="@drawable/card_forum"
-            >
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layout_forum_addNewPost"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout_forum_newPost"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:helperTextTextColor="@color/red"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:hint="@string/whats_happening"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:textColorHint="@color/gray"
-                app:boxCornerRadiusBottomEnd="20dp"
-                app:boxCornerRadiusBottomStart="20dp"
-                app:boxCornerRadiusTopEnd="20dp"
-                app:boxCornerRadiusTopStart="20dp"
-                app:boxStrokeColor="@color/green"
-                app:hintTextColor="@color/green"
-                app:endIconMode="custom"
-                app:endIconTint="@color/transparent"
-                app:endIconTintMode="screen"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                >
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textInputEditText_forum_newPost"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:inputType="textMultiLine"
-                    app:layout_constraintTop_toBottomOf="@+id/textView"
-                    tools:layout_editor_absoluteX="-6dp" />
-
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_image_library"
-                    android:layout_marginStart="25dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textInputLayout_forum_newPost"
-                    />
-
-                <Button
-                    style="@style/Widget.Material3.Button.IconButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginBottom="10dp"
-                    android:backgroundTint="@color/button_primary_color"
-                    android:textColor="@color/white"
-                    android:textSize="11sp"
-                    app:icon="@drawable/ic_send"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textInputLayout_forum_newPost" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </com.google.android.material.card.MaterialCardView>
 
 
 
@@ -130,19 +45,115 @@
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_forum_newPostBorder"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar_forum_loading"
         app:layout_constraintBottom_toBottomOf="parent"
         >
 
-        <androidx.recyclerview.widget.RecyclerView
-            tools:visibility="visible"
-            android:id="@+id/recyclerView_forum_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/item_forum"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_height="match_parent">
 
-            />
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_forum_newPostBorder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="5dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:background="@drawable/card_forum"
+                >
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_forum_addNewPost"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayout_forum_newPost"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:helperTextTextColor="@color/red"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:hint="@string/whats_happening"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:textColorHint="@color/gray"
+                        app:boxCornerRadiusBottomEnd="20dp"
+                        app:boxCornerRadiusBottomStart="20dp"
+                        app:boxCornerRadiusTopEnd="20dp"
+                        app:boxCornerRadiusTopStart="20dp"
+                        app:boxStrokeColor="@color/green"
+                        app:hintTextColor="@color/green"
+                        app:endIconMode="custom"
+                        app:endIconTint="@color/transparent"
+                        app:endIconTintMode="screen"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        >
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/textInputEditText_forum_newPost"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:inputType="textMultiLine"
+                            app:layout_constraintTop_toBottomOf="@+id/textView"
+                            tools:layout_editor_absoluteX="-6dp" />
+
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_image_library"
+                        android:layout_marginStart="25dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_forum_newPost"
+                        />
+
+                    <Button
+                        android:id="@+id/button_forum_newPost"
+                        style="@style/Widget.Material3.Button.IconButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="10dp"
+                        android:backgroundTint="@color/button_primary_color"
+                        android:textColor="@color/white"
+                        android:textSize="11sp"
+                        app:icon="@drawable/ic_send"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_forum_newPost" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                tools:visibility="visible"
+                android:id="@+id/recyclerView_forum_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/item_forum"
+                app:layout_constraintTop_toBottomOf="@+id/card_forum_newPostBorder"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     </androidx.core.widget.NestedScrollView>
 
 
