@@ -2,7 +2,8 @@ package com.renufus.agrohealth.ui.main.forum
 
 import android.app.Dialog
 import android.os.Bundle
-import android.util.Log
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import com.renufus.agrohealth.R
 import com.renufus.agrohealth.adapter.ForumAdapter
 import com.renufus.agrohealth.data.model.forum.ForumItem
 import com.renufus.agrohealth.databinding.FragmentForumBinding
+import com.renufus.agrohealth.utility.GeneralUtility
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.dsl.module
 
@@ -26,6 +28,7 @@ class ForumFragment : Fragment() {
 
     private lateinit var binding: FragmentForumBinding
     private val viewModel: ForumViewModel by viewModel<ForumViewModel>()
+    private val utility = GeneralUtility()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,16 +51,30 @@ class ForumFragment : Fragment() {
         viewModel.getForumContent()
 
         viewModel.errorStatus.observe(viewLifecycleOwner) { errorStatus ->
+            showLoading(true)
             if (!errorStatus) {
                 viewModel.forumContents.observe(viewLifecycleOwner) { forum ->
                     forumAdapter.add(forum.data)
-
-                    Log.d("FORUMFRAGMENTLOG", forum.toString())
                 }
+                Handler(Looper.getMainLooper()).postDelayed({
+                    showLoading(false)
+                }, utility.delayLoading)
             } else {
                 viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
                     Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
                 }
+            }
+        }
+    }
+
+    private fun showLoading(loading: Boolean) {
+        when (loading) {
+            true -> {
+                binding.progressBarForumLoading.visibility = View.VISIBLE
+            }
+
+            else -> {
+                binding.progressBarForumLoading.visibility = View.INVISIBLE
             }
         }
     }
