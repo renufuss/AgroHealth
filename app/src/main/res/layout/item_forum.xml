@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    >
+    xmlns:expandableTextView="http://schemas.android.com/apk/res-auto">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/border"
@@ -90,7 +89,7 @@
                 app:layout_constraintStart_toStartOf="@id/textView_forumItem_username"
                 android:textStyle="normal"/>
 
-            <TextView
+            <io.github.glailton.expandabletextview.ExpandableTextView
                 android:id="@+id/textView_forumItem_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -99,6 +98,8 @@
                 android:layout_marginStart="50dp"
                 android:layout_marginEnd="20dp"
                 android:textSize="14sp"
+                expandableTextView:collapsedLines="3"
+                expandableTextView:animDuration="500"
                 app:layout_constraintTop_toBottomOf="@id/textView_forumItem_date"
                 app:layout_constraintStart_toStartOf="@id/textView_forumItem_username"
                 android:textStyle="normal"/>
