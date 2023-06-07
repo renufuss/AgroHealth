@@ -36,9 +36,6 @@
         />
 
 
-
-
-
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScroll_forum"
         android:layout_width="0dp"
