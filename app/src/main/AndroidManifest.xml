@@ -24,7 +24,7 @@
             android:name=".ui.main.articles.detail.DetailArticleActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.camera.process.ProcessCameraActivity"
+            android:name=".ui.predictDisease.PredictDiseaseActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity

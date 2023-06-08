@@ -16,9 +16,11 @@ import com.renufus.agrohealth.ui.main.articles.articleModule
 import com.renufus.agrohealth.ui.main.articles.articleViewModelModule
 import com.renufus.agrohealth.ui.main.forum.forumModule
 import com.renufus.agrohealth.ui.main.forum.forumViewModelModule
+import com.renufus.agrohealth.ui.main.history.historyModule
 import com.renufus.agrohealth.ui.main.history.historyViewModelModule
 import com.renufus.agrohealth.ui.main.profile.profileModule
 import com.renufus.agrohealth.ui.main.profile.profileViewModelModule
+import com.renufus.agrohealth.ui.predictDisease.predictDiseaseViewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -49,6 +51,8 @@ class BaseClass : Application() {
                 forumModule,
                 predictRepositoryModule,
                 historyViewModelModule,
+                historyModule,
+                predictDiseaseViewModelModule,
             )
         }
     }

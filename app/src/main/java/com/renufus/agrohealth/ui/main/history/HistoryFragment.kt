@@ -13,6 +13,11 @@ import com.renufus.agrohealth.data.model.predict.predictHistory.HistoryItem
 import com.renufus.agrohealth.databinding.FragmentHistoryBinding
 import com.renufus.agrohealth.utility.GeneralUtility
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.dsl.module
+
+val historyModule = module {
+    factory { HistoryFragment() }
+}
 
 class HistoryFragment : Fragment() {
 

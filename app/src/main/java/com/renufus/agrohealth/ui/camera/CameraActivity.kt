@@ -21,7 +21,7 @@ import androidx.core.content.ContextCompat
 import com.renufus.agrohealth.R
 import com.renufus.agrohealth.data.model.camera.CameraModel
 import com.renufus.agrohealth.databinding.ActivityCameraBinding
-import com.renufus.agrohealth.ui.camera.process.ProcessCameraActivity
+import com.renufus.agrohealth.ui.predictDisease.PredictDiseaseActivity
 import com.renufus.agrohealth.utility.GeneralUtility
 import com.renufus.agrohealth.utility.createFile
 import com.renufus.agrohealth.utility.uriToFile
@@ -137,13 +137,13 @@ class CameraActivity : AppCompatActivity() {
     }
 
     fun startProcessCamera(photoFile: File, fromCamera: Boolean) {
-        val intent = Intent(this, ProcessCameraActivity::class.java)
+        val intent = Intent(this, PredictDiseaseActivity::class.java)
         val scanImage = CameraModel(photoFile)
 
         if (fromCamera) {
-            intent.putExtra(ProcessCameraActivity.CAMERA_X_RESULT, scanImage)
+            intent.putExtra(PredictDiseaseActivity.CAMERA_X_RESULT, scanImage)
         } else {
-            intent.putExtra(ProcessCameraActivity.GALLERY_RESULT, scanImage)
+            intent.putExtra(PredictDiseaseActivity.GALLERY_RESULT, scanImage)
         }
 
         startActivity(intent)

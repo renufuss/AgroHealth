@@ -8,12 +8,16 @@ import com.renufus.agrohealth.data.model.auth.ProfileResponse
 import com.renufus.agrohealth.data.model.auth.RefreshTokenResponse
 import com.renufus.agrohealth.data.model.auth.RegistrationRequest
 import com.renufus.agrohealth.data.model.forum.ForumResponse
+import com.renufus.agrohealth.data.model.predict.PredictResponse
 import com.renufus.agrohealth.data.model.predict.predictHistory.PredictHistoryResponse
+import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
 
 interface ApiService {
 
@@ -36,9 +40,15 @@ interface ApiService {
     @GET("api/articles")
     suspend fun getArticles(): Response<ArticlesResponse>
 
-    @GET("/forums")
+    @Multipart
+    @POST("api/predict")
+    suspend fun predictDisease(
+        @Part file: MultipartBody.Part,
+    ): Response<PredictResponse>
+
+    @GET("forums")
     suspend fun getForumContent(): Response<ForumResponse>
 
-    @GET("/historyPredicts")
+    @GET("historyPredicts")
     suspend fun getPredictHistory(): Response<PredictHistoryResponse>
 }

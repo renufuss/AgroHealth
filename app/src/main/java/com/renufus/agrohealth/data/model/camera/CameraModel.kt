@@ -6,3 +6,6 @@ import java.io.File
 
 @Parcelize
 data class CameraModel(val image: File) : Parcelable
+
+@Parcelize
+data class MyImage(val image: File, val from: String) : Parcelable
