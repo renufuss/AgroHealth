@@ -8,6 +8,7 @@ import com.renufus.agrohealth.data.model.auth.ProfileResponse
 import com.renufus.agrohealth.data.model.auth.RefreshTokenResponse
 import com.renufus.agrohealth.data.model.auth.RegistrationRequest
 import com.renufus.agrohealth.data.model.forum.ForumResponse
+import com.renufus.agrohealth.data.model.predict.predictHistory.PredictHistoryResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -37,4 +38,7 @@ interface ApiService {
 
     @GET("/forums")
     suspend fun getForumContent(): Response<ForumResponse>
+
+    @GET("/historyPredicts")
+    suspend fun getPredictHistory(): Response<PredictHistoryResponse>
 }
