@@ -12,6 +12,7 @@
     <string name="confirm_your_password">Confirm your password</string>
     <string name="whats_happening">Whats happening?</string>
     <string name="post">POST</string>
+    <string name="try_again">Try Again</string>
 
     <string-array name="category_id">
         <item>1</item>

@@ -10,8 +10,9 @@ import com.renufus.agrohealth.repositories.PredictRepository
 import com.renufus.agrohealth.utility.SingleEventLiveData
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
+import okio.IOException
 import org.koin.dsl.module
-import java.lang.Exception
+import kotlin.Exception
 
 val predictDiseaseViewModelModule = module {
     factory { PredictDiseaseViewModel(get()) }
@@ -38,7 +39,15 @@ class PredictDiseaseViewModel(private val repository: PredictRepository) : ViewM
                 }
             } catch (e: Exception) {
                 errorStatus.setValue(true)
-                errorMessage.setValue(e.message.toString())
+                errorStatus.setValue(true)
+                when (e) {
+                    is IOException -> {
+                        errorMessage.setValue("A network problem occurred")
+                    }
+                    else -> {
+                        errorMessage.setValue(e.message.toString())
+                    }
+                }
             }
         }
     }

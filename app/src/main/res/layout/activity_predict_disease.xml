@@ -49,6 +49,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
         android:text="@string/process_image_description"
         android:textSize="14sp"
         android:textStyle="bold"
@@ -60,11 +64,27 @@
         android:id="@+id/progressBar_processCamera_loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="visible"
         android:layout_marginBottom="15dp"
         app:layout_constraintBottom_toTopOf="@id/imageView_processCamera_bottom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button_processCamera_tryAgain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/try_again"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/button_primary_color"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/imageView_processCamera_bottom"
+        tools:layout_editor_absoluteX="167dp"
+        tools:layout_editor_absoluteY="613dp" />
 
     <ImageView
         android:id="@+id/imageView_processCamera_bottom"

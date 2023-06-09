@@ -5,11 +5,14 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.renufus.agrohealth.R
 import com.renufus.agrohealth.data.model.camera.CameraModel
 import com.renufus.agrohealth.data.model.camera.MyImage
 import com.renufus.agrohealth.databinding.ActivityPredictDiseaseBinding
+import com.renufus.agrohealth.ui.camera.CameraActivity
 import com.renufus.agrohealth.utility.Constants
 import com.renufus.agrohealth.utility.GeneralUtility
 import com.renufus.agrohealth.utility.rotateBitmap
@@ -35,6 +38,11 @@ class PredictDiseaseActivity : AppCompatActivity() {
         utility.setStatusBarColor(this@PredictDiseaseActivity, Color.WHITE)
 
         utility.setButtonClickAnimation(binding.imageViewProcessCameraButtonBack, R.anim.button_click_animation) {
+            finish()
+        }
+
+        utility.setButtonClickAnimation(binding.buttonProcessCameraTryAgain, R.anim.button_click_animation) {
+            utility.moveToAnotherActivity(this@PredictDiseaseActivity, CameraActivity::class.java)
             finish()
         }
 
@@ -71,18 +79,22 @@ class PredictDiseaseActivity : AppCompatActivity() {
             viewModel.predictDisease(imageMultipart)
 
             viewModel.errorStatus.observe(this) { errorStatus ->
+                showLoading(true)
                 if (!errorStatus) {
                     viewModel.prediction.observe(this) { prediction ->
+                        showLoading(false)
                         Log.d("predictionIs", prediction.toString())
                     }
                 } else {
                     viewModel.errorMessage.observe(this) { error ->
-                        Log.d("predictionIs", error.toString())
+                        showLoading(false)
+                        binding.textViewProcessCameraDescription.text = error
+                        binding.buttonProcessCameraTryAgain.visibility = View.VISIBLE
                     }
                 }
             }
         } else {
-            Log.d("predictionIs", "noImage")
+            Toast.makeText(this@PredictDiseaseActivity, "You haven't added a picture yet", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -101,6 +113,18 @@ class PredictDiseaseActivity : AppCompatActivity() {
         return file
     }
 
+    private fun showLoading(loading: Boolean) {
+        when (loading) {
+            true -> {
+                binding.progressBarProcessCameraLoading.visibility = View.VISIBLE
+                binding.buttonProcessCameraTryAgain.visibility = View.GONE
+            }
+
+            else -> {
+                binding.progressBarProcessCameraLoading.visibility = View.GONE
+            }
+        }
+    }
     companion object {
         const val CAMERA_X_RESULT = "cameraXResult"
         const val GALLERY_RESULT = "galleryResult"
