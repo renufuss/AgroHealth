@@ -48,7 +48,7 @@ class PredictDiseaseActivity : AppCompatActivity() {
         if (scanImageCameraX != null) {
             imagePredict = MyImage(scanImageCameraX.image, Constants.CAMERA)
             val image = BitmapFactory.decodeFile(scanImageCameraX.image.path)
-            val fixImage = rotateBitmap(image, true)
+            val fixImage = rotateBitmap(image, IS_BACK_CAMERA)
             binding.imageViewProcessCameraPreview.setImageBitmap(fixImage)
         }
 
@@ -104,6 +104,7 @@ class PredictDiseaseActivity : AppCompatActivity() {
     companion object {
         const val CAMERA_X_RESULT = "cameraXResult"
         const val GALLERY_RESULT = "galleryResult"
-        private const val MAXIMAL_SIZE = 9000000
+        var IS_BACK_CAMERA = false
+        private const val MAXIMAL_SIZE = 1000000
     }
 }

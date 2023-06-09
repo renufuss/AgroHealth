@@ -30,10 +30,6 @@ class ArticlesViewModel(private val repository: ArticleRepository) : ViewModel()
     private val isFarming = 3
     private val isHistory = 4
 
-    init {
-        getArticles(1)
-    }
-
     fun getArticles(category: Int) {
         viewModelScope.launch {
             try {

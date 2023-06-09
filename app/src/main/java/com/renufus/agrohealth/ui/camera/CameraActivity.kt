@@ -141,6 +141,8 @@ class CameraActivity : AppCompatActivity() {
         val scanImage = CameraModel(photoFile)
 
         if (fromCamera) {
+            PredictDiseaseActivity.IS_BACK_CAMERA = cameraSelector == CameraSelector.DEFAULT_BACK_CAMERA
+
             intent.putExtra(PredictDiseaseActivity.CAMERA_X_RESULT, scanImage)
         } else {
             intent.putExtra(PredictDiseaseActivity.GALLERY_RESULT, scanImage)
