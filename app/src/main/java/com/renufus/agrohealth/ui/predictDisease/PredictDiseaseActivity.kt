@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.exifinterface.media.ExifInterface
 import com.renufus.agrohealth.R
 import com.renufus.agrohealth.data.model.camera.CameraModel
 import com.renufus.agrohealth.data.model.camera.MyImage
@@ -55,9 +56,9 @@ class PredictDiseaseActivity : AppCompatActivity() {
 
         if (scanImageCameraX != null) {
             imagePredict = MyImage(scanImageCameraX.image, Constants.CAMERA)
-            val image = BitmapFactory.decodeFile(scanImageCameraX.image.path)
-            val fixImage = rotateBitmap(image, IS_BACK_CAMERA)
-            binding.imageViewProcessCameraPreview.setImageBitmap(fixImage)
+            val correctedFile = reduceFileImage(scanImageCameraX.image)
+            val image = BitmapFactory.decodeFile(correctedFile.path)
+            binding.imageViewProcessCameraPreview.setImageBitmap(image)
         }
 
         if (scanImageGallery != null) {
@@ -99,18 +100,32 @@ class PredictDiseaseActivity : AppCompatActivity() {
     }
 
     fun reduceFileImage(file: File): File {
+        val exif = ExifInterface(file.path)
+        val rotation = when (exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)) {
+            ExifInterface.ORIENTATION_ROTATE_90 -> 90
+            ExifInterface.ORIENTATION_ROTATE_180 -> 180
+            ExifInterface.ORIENTATION_ROTATE_270 -> 270
+            else -> 0
+        }
+
         val bitmap = BitmapFactory.decodeFile(file.path)
+        val rotatedBitmap = rotateBitmap(bitmap, rotation)
+
+        val tempFile = File.createTempFile("rotated_", ".jpg", cacheDir)
+        tempFile.deleteOnExit()
+
         var compressQuality = 100
         var streamLength: Int
         do {
             val bmpStream = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.JPEG, compressQuality, bmpStream)
+            rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, compressQuality, bmpStream)
             val bmpPicByteArray = bmpStream.toByteArray()
             streamLength = bmpPicByteArray.size
             compressQuality -= 5
         } while (streamLength > MAXIMAL_SIZE)
-        bitmap.compress(Bitmap.CompressFormat.JPEG, compressQuality, FileOutputStream(file))
-        return file
+        rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, compressQuality, FileOutputStream(tempFile))
+
+        return tempFile
     }
 
     private fun showLoading(loading: Boolean) {
