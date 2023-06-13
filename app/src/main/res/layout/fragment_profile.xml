@@ -87,6 +87,18 @@
             />
 
 
+        <include
+            android:id="@+id/layout_profile_need_login"
+            android:visibility="gone"
+            layout="@layout/layout_error_need_login"
+            />
+
+        <include
+            android:id="@+id/layout_profile_error_network"
+            android:visibility="gone"
+            layout="@layout/layout_error_network"
+            />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

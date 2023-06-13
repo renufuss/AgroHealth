@@ -53,4 +53,16 @@
             />
     </androidx.core.widget.NestedScrollView>
 
+    <include
+        android:id="@+id/layout_history_need_login"
+        android:visibility="gone"
+        layout="@layout/layout_error_need_login"
+        />
+
+    <include
+        android:id="@+id/layout_history_error_network"
+        android:visibility="gone"
+        layout="@layout/layout_error_network"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

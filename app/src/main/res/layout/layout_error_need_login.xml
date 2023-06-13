@@ -3,21 +3,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.auth.alertLogin.AlertLoginFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
 
     <ImageView
-        android:id="@+id/imageView_alertLogin"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:src="@drawable/broccoli_sad"
-        android:layout_marginTop="100dp"
+        android:id="@+id/imageView_layoutNeedLogin_topLogo"
+        android:layout_width="160dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="5dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintHorizontal_bias="0.45"
+        android:src="@drawable/logo_with_text_landscape"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/imageView_layoutNeedLogin"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:src="@drawable/broccoli_sad"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_layoutNeedLogin_topLogo"
+        app:layout_constraintVertical_bias="0.326" />
+
     <TextView
-        android:id="@+id/textView_alertLogin"
+        android:id="@+id/textView_layoutNeedLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/unfortunately_you_can_t_access_this_feature_yet_because_you_haven_t_logged_in"
@@ -27,10 +41,10 @@
         android:paddingEnd="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView_alertLogin" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView_layoutNeedLogin" />
 
     <Button
-        android:id="@+id/button_alertLogin"
+        android:id="@+id/button_layoutNeedLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="44dp"
@@ -41,6 +55,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_alertLogin" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_layoutErrorNetwork" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

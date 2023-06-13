@@ -6,7 +6,7 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.renufus.agrohealth.R
 import com.renufus.agrohealth.databinding.FragmentProfileBinding
@@ -44,11 +44,14 @@ class ProfileFragment : Fragment() {
             logout()
         }
 
-        getProfile()
+        checkLogin()
     }
 
     private fun getProfile() {
         viewModel.refreshToken()
+
+        val layoutErrorNetwork = view?.findViewById<ConstraintLayout>(R.id.layout_profile_error_network)
+        layoutErrorNetwork?.visibility = View.GONE
 
         viewModel.errorTokenStatus.observe(viewLifecycleOwner) { errorTokenStatus ->
             showLoading(true)
@@ -59,22 +62,45 @@ class ProfileFragment : Fragment() {
                         viewModel.profile.observe(viewLifecycleOwner) { profile ->
                             binding.textViewProfileEmail.text = profile.data.email
                             binding.textViewProfileUsername.text = profile.data.username
+                            binding.imageViewProfileImageProfile.visibility = View.VISIBLE
                         }
                     } else {
                         viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
-                            Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+                            binding.layoutProfileErrorNetwork.textViewLayoutErrorNetwork.text = error
+                            binding.layoutProfileErrorNetwork.buttonLayoutErrorNetwork.setOnClickListener {
+                                getProfile()
+                            }
+                            layoutErrorNetwork?.visibility = View.VISIBLE
                         }
                     }
                 }
             } else {
                 viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
-                    Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
-                    logout()
+                    binding.layoutProfileErrorNetwork.textViewLayoutErrorNetwork.text = error
+                    binding.layoutProfileErrorNetwork.buttonLayoutErrorNetwork.setOnClickListener {
+                        getProfile()
+                    }
+                    layoutErrorNetwork?.visibility = View.VISIBLE
                 }
             }
             Handler(Looper.getMainLooper()).postDelayed({
                 showLoading(false)
             }, utility.delayLoading)
+        }
+    }
+
+    private fun checkLogin() {
+        val loginStatus = viewModel.userPreferences.getStatusLogin()
+        val layoutNeedLogin = view?.findViewById<ConstraintLayout>(R.id.layout_profile_need_login)
+
+        if (loginStatus) {
+            layoutNeedLogin?.visibility = View.GONE
+            getProfile()
+        } else {
+            layoutNeedLogin?.visibility = View.VISIBLE
+            binding.layoutProfileNeedLogin.buttonLayoutNeedLogin.setOnClickListener {
+                utility.moveToAnotherActivity(requireContext(), LoginActivity::class.java)
+            }
         }
     }
 
@@ -90,7 +116,6 @@ class ProfileFragment : Fragment() {
 
             else -> {
                 binding.progressProfileLoading.visibility = View.GONE
-                binding.imageViewProfileImageProfile.visibility = View.VISIBLE
                 binding.textViewProfileEmail.visibility = View.VISIBLE
                 binding.textViewProfileUsername.visibility = View.VISIBLE
                 binding.imageViewProfileButtonLogout.visibility = View.VISIBLE
