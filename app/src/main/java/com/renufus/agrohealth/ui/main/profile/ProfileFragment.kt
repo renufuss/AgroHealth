@@ -100,8 +100,6 @@ class ProfileFragment : Fragment() {
 
     private fun logout() {
         viewModel.userPreferences.setStatusLogin(false)
-        viewModel.userPreferences.setEmail("emailData")
-        viewModel.userPreferences.setUsername("usernameData")
         viewModel.userPreferences.setToken("tokenApi")
 
         utility.moveToAnotherActivity(requireContext(), LoginActivity::class.java)
