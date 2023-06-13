@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.renufus.agrohealth.R
@@ -50,20 +51,29 @@ class ForumFragment : Fragment() {
     private fun getForumContent() {
         viewModel.getForumContent()
 
+        val layoutErrorNetwork = view?.findViewById<ConstraintLayout>(R.id.layout_forum_error_network)
+        layoutErrorNetwork?.visibility = View.GONE
+
         viewModel.errorStatus.observe(viewLifecycleOwner) { errorStatus ->
             showLoading(true)
             if (!errorStatus) {
                 viewModel.forumContents.observe(viewLifecycleOwner) { forum ->
                     forumAdapter.add(forum.data)
                 }
-                Handler(Looper.getMainLooper()).postDelayed({
-                    showLoading(false)
-                }, utility.delayLoading)
+                binding.nestedScrollForum.visibility = View.VISIBLE
             } else {
                 viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
-                    Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+                    binding.layoutForumErrorNetwork.textViewLayoutErrorNetwork.text = error
+                    binding.layoutForumErrorNetwork.buttonLayoutErrorNetwork.setOnClickListener {
+                        getForumContent()
+                    }
+                    binding.nestedScrollForum.visibility = View.GONE
+                    layoutErrorNetwork?.visibility = View.VISIBLE
                 }
             }
+            Handler(Looper.getMainLooper()).postDelayed({
+                showLoading(false)
+            }, utility.delayLoading)
         }
     }
 

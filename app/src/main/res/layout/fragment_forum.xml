@@ -47,6 +47,7 @@
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_forum_mainContent"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -153,6 +154,11 @@
 
     </androidx.core.widget.NestedScrollView>
 
+    <include
+        android:id="@+id/layout_forum_error_network"
+        android:visibility="gone"
+        layout="@layout/layout_error_network"
+        />
 
 
 

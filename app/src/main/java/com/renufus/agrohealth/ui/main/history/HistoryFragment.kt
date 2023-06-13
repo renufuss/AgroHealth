@@ -58,12 +58,14 @@ class HistoryFragment : Fragment() {
                 viewModel.predictHistory.observe(viewLifecycleOwner) { history ->
                     predictHistoryAdapter.add(history.data)
                 }
+                binding.nestedScrollHistory.visibility = View.VISIBLE
             } else {
                 viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
                     binding.layoutHistoryErrorNetwork.textViewLayoutErrorNetwork.text = error
                     binding.layoutHistoryErrorNetwork.buttonLayoutErrorNetwork.setOnClickListener {
                         getHistory()
                     }
+                    binding.nestedScrollHistory.visibility = View.GONE
                     layoutErrorNetwork?.visibility = View.VISIBLE
                 }
             }

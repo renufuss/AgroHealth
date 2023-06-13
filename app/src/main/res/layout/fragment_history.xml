@@ -34,7 +34,7 @@
         />
 
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/nestedScroll_article"
+        android:id="@+id/nestedScroll_history"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
