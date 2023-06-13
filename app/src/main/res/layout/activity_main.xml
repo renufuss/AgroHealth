@@ -36,11 +36,27 @@
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:visibility="gone"
         android:id="@+id/bottomNavigation_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:labelVisibilityMode="unlabeled"
         app:menu="@menu/menu_bottom_navigation"
+        android:background="@drawable/bottom_nav_background"
+        app:itemRippleColor="@color/transparent"
+        app:itemIconTint="@color/bottom_nav_icon_color_selector"
+        app:itemActiveIndicatorStyle="@color/transparent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:visibility="gone"
+        android:id="@+id/bottomNavigation_main_unlogged_in"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:labelVisibilityMode="unlabeled"
+        app:menu="@menu/menu_bottom_navigation_unlogged_in"
         android:background="@drawable/bottom_nav_background"
         app:itemRippleColor="@color/transparent"
         app:itemIconTint="@color/bottom_nav_icon_color_selector"

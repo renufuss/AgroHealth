@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.renufus.agrohealth.databinding.ActivityLoginBinding
 import com.renufus.agrohealth.ui.auth.register.RegisterActivity
@@ -44,6 +43,10 @@ class LoginActivity() : AppCompatActivity() {
 
         binding.buttonLoginArrow.setOnClickListener {
             login()
+        }
+
+        binding.textViewLoginLoginAsGuest.setOnClickListener {
+            utility.moveToAnotherActivity(this@LoginActivity, MainActivity::class.java)
         }
     }
 
@@ -106,7 +109,7 @@ class LoginActivity() : AppCompatActivity() {
                         finishAffinity()
                     }
                 } else {
-                    viewModel.errorMessage.observe(this) {error ->
+                    viewModel.errorMessage.observe(this) { error ->
                         binding.textViewLoginErrorText.visibility = View.VISIBLE
                         binding.textViewLoginErrorText.text = error
                     }
@@ -119,10 +122,6 @@ class LoginActivity() : AppCompatActivity() {
         }
 
         return
-    }
-    override fun onBackPressed() {
-        utility.moveToAnotherActivity(this, MainActivity::class.java)
-        finishAffinity()
     }
 
     private fun showLoading(loading: Boolean) {

@@ -24,4 +24,14 @@
         android:name="com.renufus.agrohealth.ui.main.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/navigation_alert_login_profile"
+        android:name="com.renufus.agrohealth.ui.auth.alertLogin.AlertLoginFragment"
+        android:label="fragment_alert_login"
+        tools:layout="@layout/fragment_alert_login" />
+    <fragment
+        android:id="@+id/navigation_alert_login_history"
+        android:name="com.renufus.agrohealth.ui.auth.alertLogin.AlertLoginFragment"
+        android:label="fragment_alert_login"
+        tools:layout="@layout/fragment_alert_login" />
 </navigation>

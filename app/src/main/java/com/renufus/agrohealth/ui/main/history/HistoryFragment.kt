@@ -40,6 +40,7 @@ class HistoryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.recyclerViewHistoryItem.adapter = predictHistoryAdapter
+
         getHistory()
     }
 

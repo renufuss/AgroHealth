@@ -1,7 +1,6 @@
 package com.renufus.agrohealth.repositories
 
 import com.renufus.agrohealth.data.api.ApiService
-import com.renufus.agrohealth.data.model.predict.PredictResponse
 import com.renufus.agrohealth.data.model.predict.predictHistory.PredictHistoryResponse
 import okhttp3.MultipartBody
 import org.koin.dsl.module

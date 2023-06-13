@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
 import com.renufus.agrohealth.R
 import com.renufus.agrohealth.databinding.FragmentProfileBinding
 import com.renufus.agrohealth.ui.auth.login.LoginActivity
@@ -27,8 +26,6 @@ class ProfileFragment : Fragment() {
 
     private val viewModel: ProfileViewModel by viewModel<ProfileViewModel>()
 
-    private val refreshTokenStatus = MutableLiveData<Boolean>()
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -43,21 +40,11 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        checkLogin()
-
         utility.setButtonClickAnimation(binding.imageViewProfileButtonLogout, R.anim.button_click_animation) {
             logout()
         }
-    }
 
-    private fun checkLogin() {
-        val loginStatus = viewModel.userPreferences.getStatusLogin()
-        if (!loginStatus) {
-            val activity = requireActivity()
-            utility.moveToAnotherActivity(activity, LoginActivity::class.java)
-        } else {
-            getProfile()
-        }
+        getProfile()
     }
 
     private fun getProfile() {

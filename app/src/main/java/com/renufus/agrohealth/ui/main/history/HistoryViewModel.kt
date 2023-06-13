@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.renufus.agrohealth.data.model.GeneralResponse
 import com.renufus.agrohealth.data.model.predict.predictHistory.PredictHistoryResponse
+import com.renufus.agrohealth.data.preferences.UserPreferences
 import com.renufus.agrohealth.repositories.PredictRepository
 import com.renufus.agrohealth.utility.SingleEventLiveData
 import kotlinx.coroutines.launch
@@ -13,9 +14,9 @@ import org.koin.dsl.module
 import java.lang.Exception
 
 val historyViewModelModule = module {
-    factory { HistoryViewModel(get()) }
+    factory { HistoryViewModel(get(), get()) }
 }
-class HistoryViewModel(private val repository: PredictRepository) : ViewModel() {
+class HistoryViewModel(private val repository: PredictRepository, val userPreferences: UserPreferences) : ViewModel() {
     private val gson = Gson()
     val errorStatus by lazy { SingleEventLiveData<Boolean>() }
     val errorMessage by lazy { SingleEventLiveData<String>() }

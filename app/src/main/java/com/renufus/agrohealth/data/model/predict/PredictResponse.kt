@@ -6,8 +6,8 @@ import com.renufus.agrohealth.data.model.predict.predictHistory.Data
 data class PredictResponse(
 
     @field:SerializedName("data")
-    val data: Data,
+    val data: Data? = null,
 
     @field:SerializedName("status")
-    val status: Int,
+    val status: Int? = null,
 )
