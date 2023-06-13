@@ -12,8 +12,6 @@ val userPreferenceModule = module {
 class UserPreferences(context: Context) {
     val loginStatusKey = "loginStatus"
     val tokenApiKey = "tokenApi"
-    val emailDataKey = "emailData"
-    val usernameDataKey = "usernameData"
     val sharedPreference: SharedPreferences
 
     init {
@@ -26,22 +24,6 @@ class UserPreferences(context: Context) {
 
     fun setToken(token: String?) {
         sharedPreference.edit().putString(tokenApiKey, "Bearer $token").apply()
-    }
-
-    fun setEmail(email: String?) {
-        sharedPreference.edit().putString(emailDataKey, email).apply()
-    }
-
-    fun setUsername(username: String?) {
-        sharedPreference.edit().putString(usernameDataKey, username).apply()
-    }
-
-    fun getEmail(): String? {
-        return sharedPreference.getString(emailDataKey, null)
-    }
-
-    fun getUsername(): String? {
-        return sharedPreference.getString(usernameDataKey, null)
     }
 
     fun getStatusLogin(): Boolean {
