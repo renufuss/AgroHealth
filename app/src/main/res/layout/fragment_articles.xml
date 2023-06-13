@@ -108,4 +108,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         />
 
+    <include
+        android:id="@+id/layout_article_error_network"
+        android:visibility="gone"
+        layout="@layout/layout_error_network"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

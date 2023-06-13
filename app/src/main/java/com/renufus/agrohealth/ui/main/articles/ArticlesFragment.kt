@@ -7,7 +7,7 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.renufus.agrohealth.R
 import com.renufus.agrohealth.adapter.ArticleAdapter
@@ -46,11 +46,15 @@ class ArticlesFragment : Fragment() {
         binding.recyclerViewArticlesCategory.adapter = categoryAdapter
         binding.recyclerViewArticlesItem.adapter = articleAdapter
 
-        getArticles(1)
+        getArticles(viewModel.categoryId)
     }
 
     private fun getArticles(category: Int) {
         viewModel.getArticles(category)
+
+        val layoutErrorNetwork = view?.findViewById<ConstraintLayout>(R.id.layout_article_error_network)
+        layoutErrorNetwork?.visibility = View.GONE
+        binding.nestedScrollArticle.visibility = View.VISIBLE
 
         val isIntro = 1
         val isHeadline = 1
@@ -65,21 +69,28 @@ class ArticlesFragment : Fragment() {
             showLoading(true)
             if (!errorStatus) {
                 viewModel.articleItem.observe(viewLifecycleOwner) { articles ->
-
                     binding.imageViewArticleAlert.visibility = if (articles.isEmpty()) View.VISIBLE else View.GONE
                     binding.textViewArticleAlert.visibility = if (articles.isEmpty()) View.VISIBLE else View.GONE
                     binding.recyclerViewArticlesItem.visibility = if (articles.isEmpty()) View.GONE else View.VISIBLE
                     articleAdapter.add(articles)
                 }
-                Handler(Looper.getMainLooper()).postDelayed({
-                    showLoading(false)
-                    binding.nestedScrollArticle.scrollTo(0, 0)
-                }, utility.delayLoading)
             } else {
                 viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
-                    Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+                    binding.imageViewArticleAlert.visibility = View.GONE
+                    binding.textViewArticleAlert.visibility = View.GONE
+                    binding.nestedScrollArticle.visibility = View.GONE
+                    binding.layoutArticleErrorNetwork.textViewLayoutErrorNetwork.text = error
+                    binding.layoutArticleErrorNetwork.buttonLayoutErrorNetwork.setOnClickListener {
+                        getArticles(viewModel.categoryId)
+                    }
+
+                    layoutErrorNetwork?.visibility = View.VISIBLE
                 }
             }
+            Handler(Looper.getMainLooper()).postDelayed({
+                showLoading(false)
+                binding.nestedScrollArticle.scrollTo(0, 0)
+            }, utility.delayLoading)
         }
     }
 

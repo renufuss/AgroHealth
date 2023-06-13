@@ -24,6 +24,7 @@ class ArticlesViewModel(private val repository: ArticleRepository) : ViewModel()
     val articles by lazy { MutableLiveData<ArticlesResponse>() }
 
     val articleItem by lazy { MutableLiveData<List<ArticlesItem>>() }
+    var categoryId = 1
 
     private val isIntro = 1
     private val isBusiness = 2
@@ -31,10 +32,10 @@ class ArticlesViewModel(private val repository: ArticleRepository) : ViewModel()
     private val isHistory = 4
 
     fun getArticles(category: Int) {
+        categoryId = category
         viewModelScope.launch {
             try {
                 val response = repository.getArticles()
-
                 if (response.isSuccessful) {
                     articles.value = response.body()!!
                     errorStatus.setValue(false)
