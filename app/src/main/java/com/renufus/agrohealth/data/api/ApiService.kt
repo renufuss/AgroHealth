@@ -8,6 +8,7 @@ import com.renufus.agrohealth.data.model.auth.ProfileResponse
 import com.renufus.agrohealth.data.model.auth.RefreshTokenResponse
 import com.renufus.agrohealth.data.model.auth.RegistrationRequest
 import com.renufus.agrohealth.data.model.forum.ForumResponse
+import com.renufus.agrohealth.data.model.predict.PredictResponse
 import com.renufus.agrohealth.data.model.predict.predictHistory.PredictHistoryResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
