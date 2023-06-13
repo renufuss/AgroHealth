@@ -4,6 +4,8 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -31,11 +33,11 @@ class PredictDiseaseActivity : AppCompatActivity() {
     private val viewModel: PredictDiseaseViewModel by viewModel<PredictDiseaseViewModel>()
     private val utility = GeneralUtility()
     private var imagePredict: MyImage? = null
+    private var processDelay = 1200L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        renderImage()
         utility.setStatusBarColor(this@PredictDiseaseActivity, Color.WHITE)
 
         utility.setButtonClickAnimation(binding.imageViewProcessCameraButtonBack, R.anim.button_click_animation) {
@@ -46,8 +48,15 @@ class PredictDiseaseActivity : AppCompatActivity() {
             utility.moveToAnotherActivity(this@PredictDiseaseActivity, CameraActivity::class.java)
             finish()
         }
+        renderImage()
+    }
 
-        processImage()
+    override fun onStart() {
+        super.onStart()
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            processImage()
+        }, processDelay)
     }
 
     private fun renderImage() {
@@ -63,7 +72,8 @@ class PredictDiseaseActivity : AppCompatActivity() {
 
         if (scanImageGallery != null) {
             imagePredict = MyImage(scanImageGallery.image, Constants.GALLERY)
-            val image = BitmapFactory.decodeFile(scanImageGallery.image.path)
+            val correctedFile = reduceFileImage(scanImageGallery.image)
+            val image = BitmapFactory.decodeFile(correctedFile.path)
             binding.imageViewProcessCameraPreview.setImageBitmap(image)
         }
     }

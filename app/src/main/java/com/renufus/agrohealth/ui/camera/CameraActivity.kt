@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -35,6 +36,7 @@ class CameraActivity : AppCompatActivity() {
     private var cameraSelector: CameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
     private lateinit var cameraExecutor: ExecutorService
     private val utility = GeneralUtility()
+    private var isImageCaptureInProgress = false
 
     private var getFile: File? = null
     private val launcherIntentGalley =
@@ -102,6 +104,17 @@ class CameraActivity : AppCompatActivity() {
     }
 
     private fun takeImage() {
+        // Check if image capture process is already in progress
+        if (isImageCaptureInProgress) {
+            return
+        }
+
+        // Disable the capture button and other UI elements during image capture
+        disableUIElements()
+
+        // Set the flag to indicate that the image capture process is in progress
+        isImageCaptureInProgress = true
+
         val imageCapture = imageCapture ?: return
         val photoFile = createFile(application)
         val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
@@ -112,14 +125,51 @@ class CameraActivity : AppCompatActivity() {
             object : ImageCapture.OnImageSavedCallback {
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                     startProcessCamera(photoFile, true)
+                    // Reset the flag and enable the capture button when the image capture process is completed
+                    isImageCaptureInProgress = false
+                    enableUIElements()
+
+                    // Unbind the camera from the lifecycle to freeze the camera preview
+                    val cameraProviderFuture = ProcessCameraProvider.getInstance(this@CameraActivity)
+                    cameraProviderFuture.addListener({
+                        val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
+                        cameraProvider.unbindAll()
+
+                        // Play the shutter sound effect
+                        playShutterSound()
+                    }, ContextCompat.getMainExecutor(this@CameraActivity))
                 }
 
                 override fun onError(exception: ImageCaptureException) {
-                    Toast.makeText(this@CameraActivity, "Failed take image", Toast.LENGTH_SHORT)
+                    Toast.makeText(this@CameraActivity, "Failed to capture image", Toast.LENGTH_SHORT)
                         .show()
+                    // Reset the flag and enable the capture button in case of an error
+                    isImageCaptureInProgress = false
+                    enableUIElements()
                 }
             },
         )
+    }
+
+    private fun disableUIElements() {
+        binding.imageViewCameraButtonCapture.isEnabled = false
+        binding.imageViewCameraGallery.isEnabled = false
+        binding.imageViewCameraSwitch.isEnabled = false
+    }
+
+    private fun enableUIElements() {
+        binding.imageViewCameraButtonCapture.isEnabled = true
+        binding.imageViewCameraGallery.isEnabled = true
+        binding.imageViewCameraSwitch.isEnabled = true
+    }
+
+    private fun playShutterSound() {
+        val mediaPlayer = MediaPlayer.create(this, R.raw.shutter_sound)
+        mediaPlayer.setOnCompletionListener {
+            // Release the MediaPlayer resources after playing the sound effect
+            mediaPlayer.release()
+        }
+        mediaPlayer.start()
     }
 
     private fun allPermissionsGranted(): Boolean {
