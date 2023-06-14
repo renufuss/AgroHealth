@@ -16,7 +16,7 @@
         tools:layout="@layout/fragment_articles" />
     <fragment
         android:id="@+id/navigation_history"
-        android:name="com.renufus.agrohealth.ui.main.history.HistoryFragment"
+        android:name="com.renufus.agrohealth.ui.main.predictHistory.HistoryFragment"
         android:label="fragment_history"
         tools:layout="@layout/fragment_history" />
     <fragment

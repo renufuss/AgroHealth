@@ -1,4 +1,4 @@
-package com.renufus.agrohealth.ui.main.history
+package com.renufus.agrohealth.ui.main.predictHistory
 
 import android.os.Bundle
 import android.os.Handler
@@ -11,7 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.renufus.agrohealth.R
 import com.renufus.agrohealth.adapter.PredictHistoryAdapter
-import com.renufus.agrohealth.data.model.predict.predictHistory.PredictHistoryItem
+import com.renufus.agrohealth.data.model.predictDisease.predictHistory.PredictHistoryItem
 import com.renufus.agrohealth.databinding.FragmentHistoryBinding
 import com.renufus.agrohealth.ui.auth.login.LoginActivity
 import com.renufus.agrohealth.utility.GeneralUtility

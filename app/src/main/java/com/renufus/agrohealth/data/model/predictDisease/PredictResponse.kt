@@ -1,4 +1,4 @@
-package com.renufus.agrohealth.data.model.predict
+package com.renufus.agrohealth.data.model.predictDisease
 
 import com.google.gson.annotations.SerializedName
 

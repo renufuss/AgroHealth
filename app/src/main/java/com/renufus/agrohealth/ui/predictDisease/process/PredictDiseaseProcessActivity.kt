@@ -1,4 +1,4 @@
-package com.renufus.agrohealth.ui.predictDisease
+package com.renufus.agrohealth.ui.predictDisease.process
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -14,7 +14,7 @@ import androidx.exifinterface.media.ExifInterface
 import com.renufus.agrohealth.R
 import com.renufus.agrohealth.data.model.camera.CameraModel
 import com.renufus.agrohealth.data.model.camera.MyImage
-import com.renufus.agrohealth.databinding.ActivityPredictDiseaseBinding
+import com.renufus.agrohealth.databinding.ActivityPredictDiseaseProcessBinding
 import com.renufus.agrohealth.ui.auth.login.LoginActivity
 import com.renufus.agrohealth.ui.camera.CameraActivity
 import com.renufus.agrohealth.utility.Constants
@@ -28,9 +28,9 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 
-class PredictDiseaseActivity : AppCompatActivity() {
+class PredictDiseaseProcessActivity : AppCompatActivity() {
 
-    private val binding: ActivityPredictDiseaseBinding by lazy { ActivityPredictDiseaseBinding.inflate(layoutInflater) }
+    private val binding: ActivityPredictDiseaseProcessBinding by lazy { ActivityPredictDiseaseProcessBinding.inflate(layoutInflater) }
     private val viewModel: PredictDiseaseViewModel by viewModel<PredictDiseaseViewModel>()
     private val utility = GeneralUtility()
     private var imagePredict: MyImage? = null
@@ -39,14 +39,14 @@ class PredictDiseaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        utility.setStatusBarColor(this@PredictDiseaseActivity, Color.WHITE)
+        utility.setStatusBarColor(this@PredictDiseaseProcessActivity, Color.WHITE)
 
         utility.setButtonClickAnimation(binding.imageViewProcessCameraButtonBack, R.anim.button_click_animation) {
             finish()
         }
 
         utility.setButtonClickAnimation(binding.buttonProcessCameraTryAgain, R.anim.button_click_animation) {
-            utility.moveToAnotherActivity(this@PredictDiseaseActivity, CameraActivity::class.java)
+            utility.moveToAnotherActivity(this@PredictDiseaseProcessActivity, CameraActivity::class.java)
             finish()
         }
         renderImage()
@@ -121,7 +121,7 @@ class PredictDiseaseActivity : AppCompatActivity() {
                 }
             }
         } else {
-            Toast.makeText(this@PredictDiseaseActivity, "You haven't added a picture yet", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@PredictDiseaseProcessActivity, "You haven't added a picture yet", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -171,7 +171,7 @@ class PredictDiseaseActivity : AppCompatActivity() {
         viewModel.userPreferences.setStatusLogin(false)
         viewModel.userPreferences.setToken("tokenApi")
 
-        utility.moveToAnotherActivity(this@PredictDiseaseActivity, LoginActivity::class.java)
+        utility.moveToAnotherActivity(this@PredictDiseaseProcessActivity, LoginActivity::class.java)
     }
     companion object {
         const val CAMERA_X_RESULT = "cameraXResult"

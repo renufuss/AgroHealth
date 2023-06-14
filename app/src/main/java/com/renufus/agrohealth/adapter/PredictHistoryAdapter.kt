@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.renufus.agrohealth.R
-import com.renufus.agrohealth.data.model.predict.predictHistory.PredictHistoryItem
+import com.renufus.agrohealth.data.model.predictDisease.predictHistory.PredictHistoryItem
 import com.renufus.agrohealth.databinding.ItemHistoryBinding
 import com.renufus.agrohealth.utility.GeneralUtility
 

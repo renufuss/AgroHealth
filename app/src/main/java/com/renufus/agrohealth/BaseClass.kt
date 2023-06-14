@@ -16,13 +16,13 @@ import com.renufus.agrohealth.ui.main.articles.articleModule
 import com.renufus.agrohealth.ui.main.articles.articleViewModelModule
 import com.renufus.agrohealth.ui.main.forum.forumModule
 import com.renufus.agrohealth.ui.main.forum.forumViewModelModule
-import com.renufus.agrohealth.ui.main.history.historyModule
-import com.renufus.agrohealth.ui.main.history.historyViewModelModule
 import com.renufus.agrohealth.ui.main.mainModule
 import com.renufus.agrohealth.ui.main.mainViewModelModule
+import com.renufus.agrohealth.ui.main.predictHistory.historyModule
+import com.renufus.agrohealth.ui.main.predictHistory.historyViewModelModule
 import com.renufus.agrohealth.ui.main.profile.profileModule
 import com.renufus.agrohealth.ui.main.profile.profileViewModelModule
-import com.renufus.agrohealth.ui.predictDisease.predictDiseaseViewModelModule
+import com.renufus.agrohealth.ui.predictDisease.process.predictDiseaseViewModelModule
 import com.renufus.agrohealth.ui.splash.splashModule
 import com.renufus.agrohealth.ui.splash.splashViewModelModule
 import org.koin.android.ext.koin.androidContext

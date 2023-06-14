@@ -1,11 +1,11 @@
-package com.renufus.agrohealth.ui.main.history
+package com.renufus.agrohealth.ui.main.predictHistory
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.renufus.agrohealth.data.model.GeneralResponse
-import com.renufus.agrohealth.data.model.predict.predictHistory.PredictHistoryResponse
+import com.renufus.agrohealth.data.model.predictDisease.predictHistory.PredictHistoryResponse
 import com.renufus.agrohealth.data.preferences.UserPreferences
 import com.renufus.agrohealth.repositories.PredictRepository
 import com.renufus.agrohealth.repositories.UserRepository
