@@ -1,6 +1,8 @@
 package com.renufus.agrohealth.ui.main.forum
 
 import android.app.Dialog
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -10,6 +12,8 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
@@ -18,8 +22,10 @@ import com.renufus.agrohealth.adapter.ForumAdapter
 import com.renufus.agrohealth.data.model.forum.ForumItem
 import com.renufus.agrohealth.databinding.FragmentForumBinding
 import com.renufus.agrohealth.utility.GeneralUtility
+import com.renufus.agrohealth.utility.uriToFile
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.dsl.module
+import java.io.File
 
 val forumModule = module {
     factory { ForumFragment() }
@@ -30,6 +36,7 @@ class ForumFragment : Fragment() {
     private lateinit var binding: FragmentForumBinding
     private val viewModel: ForumViewModel by viewModel<ForumViewModel>()
     private val utility = GeneralUtility()
+    private var getFile: File? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,6 +54,14 @@ class ForumFragment : Fragment() {
         binding.recyclerViewForumContent.adapter = forumAdapter
         checkLogin()
         getForumContent()
+
+        utility.setButtonClickAnimation(binding.imageViewForumAddImageNewPost, R.anim.button_click_animation) {
+            startGallery()
+        }
+
+        utility.setButtonClickAnimation(binding.imageViewForumRemoveImageNewPost, R.anim.button_click_animation) {
+            removeImageNewPost()
+        }
     }
 
     private fun getForumContent() {
@@ -98,6 +113,36 @@ class ForumFragment : Fragment() {
         } else {
             binding.cardForumNewPostBorder.visibility = View.GONE
         }
+    }
+
+    private fun startGallery() {
+        val intent = Intent()
+        intent.action = Intent.ACTION_GET_CONTENT
+        intent.type = "image/*"
+        val chooser = Intent.createChooser(intent, "Choose a Picture")
+        launcherIntentGallery.launch(chooser)
+    }
+
+    private val launcherIntentGallery = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult(),
+    ) { result ->
+        if (result.resultCode == AppCompatActivity.RESULT_OK) {
+            val selectedImg = result.data?.data as Uri
+            selectedImg.let { uri ->
+                val myFile = uriToFile(uri, requireContext())
+                getFile = myFile
+                binding.imageViewForumImageNewPost.setImageURI(uri)
+            }
+
+            binding.imageViewForumImageNewPost.visibility = View.VISIBLE
+            binding.imageViewForumRemoveImageNewPost.visibility = View.VISIBLE
+        }
+    }
+
+    private fun removeImageNewPost() {
+        getFile = null
+        binding.imageViewForumImageNewPost.visibility = View.GONE
+        binding.imageViewForumRemoveImageNewPost.visibility = View.GONE
     }
 
     private val forumAdapter by lazy {

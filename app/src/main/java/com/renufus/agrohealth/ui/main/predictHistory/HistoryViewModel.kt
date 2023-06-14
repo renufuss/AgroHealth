@@ -11,6 +11,7 @@ import com.renufus.agrohealth.repositories.PredictRepository
 import com.renufus.agrohealth.repositories.UserRepository
 import com.renufus.agrohealth.utility.SingleEventLiveData
 import kotlinx.coroutines.launch
+import okio.IOException
 import org.koin.dsl.module
 import java.lang.Exception
 
@@ -61,8 +62,16 @@ class HistoryViewModel(private val repository: PredictRepository, val userPrefer
                 }
             } catch (e: Exception) {
                 errorStatus.setValue(true)
-                errorTokenStatus.setValue(true)
-                errorMessage.setValue("Your token is expired")
+                when (e) {
+                    is IOException -> {
+                        errorMessage.setValue("A network problem occurred")
+                        errorTokenStatus.setValue(false)
+                    }
+                    else -> {
+                        errorTokenStatus.setValue(true)
+                        errorMessage.setValue("Your token is expired")
+                    }
+                }
             }
         }
     }
