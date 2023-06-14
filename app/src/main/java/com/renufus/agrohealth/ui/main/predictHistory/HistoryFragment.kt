@@ -1,12 +1,12 @@
 package com.renufus.agrohealth.ui.main.predictHistory
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.renufus.agrohealth.R
@@ -14,6 +14,7 @@ import com.renufus.agrohealth.adapter.PredictHistoryAdapter
 import com.renufus.agrohealth.data.model.predictDisease.predictHistory.PredictHistoryItem
 import com.renufus.agrohealth.databinding.FragmentHistoryBinding
 import com.renufus.agrohealth.ui.auth.login.LoginActivity
+import com.renufus.agrohealth.ui.predictDisease.result.PredictDiseaseResultActivity
 import com.renufus.agrohealth.utility.GeneralUtility
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.dsl.module
@@ -131,7 +132,9 @@ class HistoryFragment : Fragment() {
             arrayListOf(),
             object : PredictHistoryAdapter.OnAdapterListener {
                 override fun onClick(history: PredictHistoryItem) {
-                    Toast.makeText(requireContext(), "${history.id} clicked", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(requireContext(), PredictDiseaseResultActivity::class.java)
+                    intent.putExtra(PredictDiseaseResultActivity.DISEASE_DATA, history)
+                    startActivity(intent)
                 }
             },
         )

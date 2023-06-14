@@ -15,6 +15,7 @@
     <string name="try_again">Try Again</string>
     <string name="login_as_guest">Login as guest</string>
     <string name="unfortunately_you_can_t_access_this_feature_yet_because_you_haven_t_logged_in">Unfortunately, you can\'t access this feature yet because you haven\'t logged in</string>
+    <string name="solution">Solution</string>
 
     <string-array name="category_id">
         <item>1</item>

@@ -1,7 +1,10 @@
 package com.renufus.agrohealth.data.model.predictDisease.predictHistory
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class PredictHistoryItem(
 
     @field:SerializedName("diseaseName")
@@ -27,4 +30,4 @@ data class PredictHistoryItem(
 
     @field:SerializedName("email")
     val email: String? = null,
-)
+) : Parcelable
