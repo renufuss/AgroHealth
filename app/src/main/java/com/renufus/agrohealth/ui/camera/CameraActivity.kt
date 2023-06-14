@@ -24,14 +24,20 @@ import androidx.core.content.ContextCompat
 import com.renufus.agrohealth.R
 import com.renufus.agrohealth.data.model.camera.CameraModel
 import com.renufus.agrohealth.databinding.ActivityCameraBinding
+import com.renufus.agrohealth.ui.auth.login.LoginActivity
 import com.renufus.agrohealth.ui.predictDisease.process.PredictDiseaseProcessActivity
 import com.renufus.agrohealth.utility.GeneralUtility
 import com.renufus.agrohealth.utility.createFile
 import com.renufus.agrohealth.utility.uriToFile
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.dsl.module
 import java.io.File
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
+val cameraModule = module {
+    factory { CameraActivity() }
+}
 class CameraActivity : AppCompatActivity() {
     private val binding: ActivityCameraBinding by lazy { ActivityCameraBinding.inflate(layoutInflater) }
     private var imageCapture: ImageCapture? = null
@@ -39,6 +45,7 @@ class CameraActivity : AppCompatActivity() {
     private lateinit var cameraExecutor: ExecutorService
     private val utility = GeneralUtility()
     private var isImageCaptureInProgress = false
+    private val viewModel: CameraViewModel by viewModel<CameraViewModel>()
 
     private var getFile: File? = null
     private val launcherIntentGalley =
@@ -56,21 +63,44 @@ class CameraActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(binding.root)
-        if (allPermissionsGranted()) {
-            startCamera()
-        } else {
-            ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_PERMISSION_CODE)
-        }
 
         cameraExecutor = Executors.newSingleThreadExecutor()
 
         customStatusBar()
         initButton()
+
+        initCamera()
+    }
+
+    private fun initCamera() {
+        val loginStatus = viewModel.userPreferences.getStatusLogin()
+        if (loginStatus) {
+            showNeedLoginAlert(false)
+            if (allPermissionsGranted()) {
+                startCamera()
+            } else {
+                ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_PERMISSION_CODE)
+            }
+        } else {
+            showNeedLoginAlert(true)
+        }
     }
 
     public override fun onResume() {
         super.onResume()
-        startCamera()
+        val loginStatus = viewModel.userPreferences.getStatusLogin()
+
+        if (loginStatus) {
+            showNeedLoginAlert(false)
+            if (allPermissionsGranted()) {
+                startCamera()
+                showRejectedPermission(false)
+            } else {
+                showRejectedPermission(true)
+            }
+        } else {
+            showNeedLoginAlert(true)
+        }
     }
 
     private fun startCamera() {
@@ -255,10 +285,6 @@ class CameraActivity : AppCompatActivity() {
         cameraExecutor.shutdown()
     }
 
-    private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
-
     private fun hideUserInterface(status: Boolean) {
         when (status) {
             true -> {
@@ -279,21 +305,40 @@ class CameraActivity : AppCompatActivity() {
     }
 
     private fun showRejectedPermission(status: Boolean) {
-        val layoutErrorNetwork = findViewById<ConstraintLayout>(R.id.layout_profile_error_network)
+        val layoutErrorNetwork = findViewById<ConstraintLayout>(R.id.layout_camera_permission_rejected)
         when (status) {
             true -> {
                 hideUserInterface(true)
+                binding.imageViewCameraButtonBack.visibility = View.GONE
                 layoutErrorNetwork?.visibility = View.VISIBLE
-                binding.layoutProfileErrorNetwork.imageViewLayoutPermissionRejectedButtonBack.setOnClickListener {
+                binding.layoutCameraPermissionRejected.imageViewLayoutPermissionRejectedButtonBack.setOnClickListener {
                     finish()
                 }
-                binding.layoutProfileErrorNetwork.buttonLayoutPermissionRejected.setOnClickListener {
+                binding.layoutCameraPermissionRejected.buttonLayoutPermissionRejected.setOnClickListener {
                     openAppSettings()
                 }
             }
             false -> {
                 hideUserInterface(false)
+                binding.imageViewCameraButtonBack.visibility = View.VISIBLE
                 layoutErrorNetwork?.visibility = View.GONE
+            }
+        }
+    }
+
+    private fun showNeedLoginAlert(status: Boolean) {
+        val layoutNeedLogin = findViewById<ConstraintLayout>(R.id.layout_camera_need_login)
+
+        when (status) {
+            true -> {
+                hideUserInterface(true)
+                layoutNeedLogin?.visibility = View.VISIBLE
+                binding.layoutCameraNeedLogin.buttonLayoutNeedLogin.setOnClickListener {
+                    utility.moveToAnotherActivity(this@CameraActivity, LoginActivity::class.java)
+                }
+            }
+            false -> {
+                layoutNeedLogin?.visibility = View.GONE
             }
         }
     }
@@ -304,17 +349,6 @@ class CameraActivity : AppCompatActivity() {
         intent.data = uri
         startActivity(intent)
     }
-
-    override fun onResumeFragments() {
-        super.onResumeFragments()
-        if (allPermissionsGranted()) {
-            startCamera()
-            showRejectedPermission(false)
-        } else {
-            showRejectedPermission(true)
-        }
-    }
-
     companion object {
         private val TAG = CameraActivity::class.java.simpleName
         private const val REQUEST_PERMISSION_CODE = 10

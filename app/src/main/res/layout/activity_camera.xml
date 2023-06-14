@@ -69,9 +69,16 @@
         app:srcCompat="@drawable/button_camera" />
 
     <include
-        android:id="@+id/layout_profile_error_network"
+        android:id="@+id/layout_camera_permission_rejected"
         android:visibility="gone"
         layout="@layout/layout_permission_rejected"
         />
+
+    <include
+        android:id="@+id/layout_camera_need_login"
+        android:visibility="gone"
+        layout="@layout/layout_error_need_login"
+        />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

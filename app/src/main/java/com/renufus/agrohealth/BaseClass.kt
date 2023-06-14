@@ -12,6 +12,8 @@ import com.renufus.agrohealth.ui.auth.login.loginModule
 import com.renufus.agrohealth.ui.auth.login.loginViewModelModule
 import com.renufus.agrohealth.ui.auth.register.registerModule
 import com.renufus.agrohealth.ui.auth.register.registerViewModelModule
+import com.renufus.agrohealth.ui.camera.cameraModule
+import com.renufus.agrohealth.ui.camera.cameraViewModelModule
 import com.renufus.agrohealth.ui.main.articles.articleModule
 import com.renufus.agrohealth.ui.main.articles.articleViewModelModule
 import com.renufus.agrohealth.ui.main.forum.forumModule
@@ -61,7 +63,8 @@ class BaseClass : Application() {
                 splashViewModelModule,
                 mainModule,
                 mainViewModelModule,
-
+                cameraModule,
+                cameraViewModelModule,
             )
         }
     }
