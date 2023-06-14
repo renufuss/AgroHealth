@@ -68,7 +68,7 @@ class ProfileViewModel(private val repository: UserRepository, val userPreferenc
                     }
                     else -> {
                         errorTokenStatus.setValue(true)
-                        errorMessage.setValue("Your token is expired")
+                        errorMessage.setValue("Your token is expired, Make sure you only log in on 1 device")
                     }
                 }
             }

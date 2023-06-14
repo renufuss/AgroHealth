@@ -72,7 +72,7 @@ class PredictDiseaseViewModel(private val repository: PredictRepository, val use
             } catch (e: java.lang.Exception) {
                 errorStatus.setValue(true)
                 errorTokenStatus.setValue(true)
-                errorMessage.setValue("Your token is expired")
+                errorMessage.setValue("Your token is expired, Make sure you only log in on 1 device")
             }
         }
     }
