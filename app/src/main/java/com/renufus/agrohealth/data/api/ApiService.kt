@@ -50,6 +50,8 @@ interface ApiService {
     @GET("api/forum/posts")
     suspend fun getForumContent(): Response<ForumResponse>
 
-    @GET("historyPredicts")
-    suspend fun getPredictHistory(): Response<PredictHistoryResponse>
+    @GET("/api/user/history")
+    suspend fun getPredictHistory(
+        @Header("Authorization") token: String,
+    ): Response<PredictHistoryResponse>
 }

@@ -5,19 +5,19 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.renufus.agrohealth.R
-import com.renufus.agrohealth.data.model.predict.predictHistory.HistoryItem
+import com.renufus.agrohealth.data.model.predict.predictHistory.PredictHistoryItem
 import com.renufus.agrohealth.databinding.ItemHistoryBinding
 import com.renufus.agrohealth.utility.GeneralUtility
 
 class PredictHistoryAdapter(
-    val histories: ArrayList<HistoryItem>,
+    val histories: ArrayList<PredictHistoryItem>,
     val listener: OnAdapterListener,
 ) : RecyclerView.Adapter<PredictHistoryAdapter.ViewHolder>() {
 
     val utility = GeneralUtility()
 
     interface OnAdapterListener {
-        fun onClick(history: HistoryItem)
+        fun onClick(history: PredictHistoryItem)
     }
 
     interface OnImageClickListener {
@@ -35,10 +35,9 @@ class PredictHistoryAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val history = histories[position]
         holder.binding.textViewHistoryItemDiseaseName.text = history.diseaseName
-        holder.binding.textViewHistoryItemLatinDiseaseName.text = history.diseaseLatin
-        holder.binding.textViewHistoryItemPredictDate.text = history.predictedAt
+        holder.binding.textViewHistoryItemPredictDate.text = history.createdAt
         Glide.with(holder.binding.imageViewHistoryItemPreview)
-            .load(history.diseaseImage)
+            .load(history.imageUrl)
             .placeholder(R.drawable.text_logo)
             .error(R.drawable.text_logo)
             .centerCrop()
@@ -49,7 +48,7 @@ class PredictHistoryAdapter(
         }
     }
 
-    fun add(data: List<HistoryItem>) {
+    fun add(data: List<PredictHistoryItem>) {
         histories.clear()
         histories.addAll(data)
         notifyDataSetChanged()

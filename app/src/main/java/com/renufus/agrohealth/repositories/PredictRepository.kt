@@ -15,7 +15,7 @@ class PredictRepository(private val apiService: ApiService) {
     suspend fun predictDisease(token: String, image: MultipartBody.Part): Response<PredictResponse> {
         return apiService.predictDisease(token, image)
     }
-    suspend fun getPredictHistory(): Response<PredictHistoryResponse> {
-        return apiService.getPredictHistory()
+    suspend fun getPredictHistory(token: String): Response<PredictHistoryResponse> {
+        return apiService.getPredictHistory(token)
     }
 }

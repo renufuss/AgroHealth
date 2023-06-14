@@ -105,7 +105,7 @@ class ForumFragment : Fragment() {
             arrayListOf(),
             object : ForumAdapter.OnAdapterListener {
                 override fun onClick(forum: ForumItem) {
-                    Toast.makeText(requireContext(), "${forum._id} clicked", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "${forum.id} clicked", Toast.LENGTH_SHORT).show()
                 }
             },
             object : ForumAdapter.OnImageClickListener {

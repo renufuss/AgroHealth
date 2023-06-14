@@ -4,12 +4,12 @@ import com.google.gson.annotations.SerializedName
 
 data class PredictHistoryResponse(
 
-    @field:SerializedName("totalResult")
-    val totalResult: Int,
-
     @field:SerializedName("data")
-    val data: List<HistoryItem>,
+    val data: List<PredictHistoryItem>,
+
+    @field:SerializedName("message")
+    val message: String? = null,
 
     @field:SerializedName("status")
-    val status: Int,
+    val status: Int? = null,
 )

@@ -17,7 +17,7 @@ data class ForumItem(
     val modified: String? = null,
 
     @field:SerializedName("_id")
-    val _id: String? = null,
+    val id: String? = null,
 
     @field:SerializedName("email")
     val email: String? = null,

@@ -11,7 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.renufus.agrohealth.R
 import com.renufus.agrohealth.adapter.PredictHistoryAdapter
-import com.renufus.agrohealth.data.model.predict.predictHistory.HistoryItem
+import com.renufus.agrohealth.data.model.predict.predictHistory.PredictHistoryItem
 import com.renufus.agrohealth.databinding.FragmentHistoryBinding
 import com.renufus.agrohealth.ui.auth.login.LoginActivity
 import com.renufus.agrohealth.utility.GeneralUtility
@@ -48,17 +48,33 @@ class HistoryFragment : Fragment() {
     }
 
     private fun getHistory() {
-        viewModel.getHistory()
+        viewModel.refreshToken()
+
         val layoutErrorNetwork = view?.findViewById<ConstraintLayout>(R.id.layout_history_error_network)
         layoutErrorNetwork?.visibility = View.GONE
 
-        viewModel.errorStatus.observe(viewLifecycleOwner) { errorStatus ->
+        viewModel.errorTokenStatus.observe(viewLifecycleOwner) { errorTokenStatus ->
             showLoading(true)
-            if (!errorStatus) {
-                viewModel.predictHistory.observe(viewLifecycleOwner) { history ->
-                    predictHistoryAdapter.add(history.data)
+            if (!errorTokenStatus) {
+                viewModel.getHistory()
+                viewModel.errorStatus.observe(viewLifecycleOwner) { errorStatus ->
+                    showLoading(true)
+                    if (!errorStatus) {
+                        viewModel.predictHistory.observe(viewLifecycleOwner) { history ->
+                            predictHistoryAdapter.add(history.data)
+                        }
+                        binding.nestedScrollHistory.visibility = View.VISIBLE
+                    } else {
+                        viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
+                            binding.layoutHistoryErrorNetwork.textViewLayoutErrorNetwork.text = error
+                            binding.layoutHistoryErrorNetwork.buttonLayoutErrorNetwork.setOnClickListener {
+                                getHistory()
+                            }
+                            binding.nestedScrollHistory.visibility = View.GONE
+                            layoutErrorNetwork?.visibility = View.VISIBLE
+                        }
+                    }
                 }
-                binding.nestedScrollHistory.visibility = View.VISIBLE
             } else {
                 viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
                     binding.layoutHistoryErrorNetwork.textViewLayoutErrorNetwork.text = error
@@ -106,7 +122,7 @@ class HistoryFragment : Fragment() {
         PredictHistoryAdapter(
             arrayListOf(),
             object : PredictHistoryAdapter.OnAdapterListener {
-                override fun onClick(history: HistoryItem) {
+                override fun onClick(history: PredictHistoryItem) {
                     Toast.makeText(requireContext(), "${history.id} clicked", Toast.LENGTH_SHORT).show()
                 }
             },

@@ -19,7 +19,7 @@ import kotlin.Exception
 val predictDiseaseViewModelModule = module {
     factory { PredictDiseaseViewModel(get(), get(), get()) }
 }
-class PredictDiseaseViewModel(private val repository: PredictRepository, val userPreferences: UserPreferences, val userRepository: UserRepository) : ViewModel() {
+class PredictDiseaseViewModel(private val repository: PredictRepository, val userPreferences: UserPreferences, private val userRepository: UserRepository) : ViewModel() {
     private val gson = Gson()
     val errorTokenStatus by lazy { SingleEventLiveData<Boolean>() }
     val errorStatus by lazy { SingleEventLiveData<Boolean>() }

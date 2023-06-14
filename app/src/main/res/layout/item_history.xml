@@ -63,20 +63,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Disease Name" />
 
-            <TextView
-                android:id="@+id/textView_historyItem_latinDiseaseName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/gray"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.028"
-                app:layout_constraintStart_toEndOf="@id/imageView_historyItem_preview"
-                app:layout_constraintTop_toBottomOf="@id/textView_historyItem_diseaseName"
-                tools:text="Latin Disease Name" />
 
             <TextView
                 android:id="@+id/textView_historyItem_predictDate"
@@ -90,7 +76,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.02"
                 app:layout_constraintStart_toEndOf="@id/imageView_historyItem_preview"
-                app:layout_constraintTop_toBottomOf="@id/textView_historyItem_latinDiseaseName"
+                app:layout_constraintTop_toBottomOf="@id/textView_historyItem_diseaseName"
                 tools:text="Predict Date" />
 
 
