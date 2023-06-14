@@ -15,6 +15,16 @@
         tools:layout_editor_absoluteY="-117dp" />
 
     <ImageView
+        android:id="@+id/imageView_camera_buttonBack"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginStart="15dp"
+        android:src="@drawable/back_button_camera"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
         android:id="@+id/imageView_camera_frame"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

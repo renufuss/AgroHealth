@@ -8,6 +8,7 @@ import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -224,6 +225,10 @@ class CameraActivity : AppCompatActivity() {
             takeImage()
         }
 
+        utility.setButtonClickAnimation(binding.imageViewCameraButtonBack, R.anim.button_click_animation) {
+            finish()
+        }
+
         utility.setButtonClickAnimation(binding.imageViewCameraSwitch, R.anim.button_click_animation) {
             cameraSelector = if (cameraSelector.equals(CameraSelector.DEFAULT_BACK_CAMERA)) {
                 CameraSelector.DEFAULT_FRONT_CAMERA
@@ -283,13 +288,30 @@ class CameraActivity : AppCompatActivity() {
                     finish()
                 }
                 binding.layoutProfileErrorNetwork.buttonLayoutPermissionRejected.setOnClickListener {
-                    ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_PERMISSION_CODE)
+                    openAppSettings()
                 }
             }
             false -> {
                 hideUserInterface(false)
                 layoutErrorNetwork?.visibility = View.GONE
             }
+        }
+    }
+
+    private fun openAppSettings() {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+        val uri = Uri.fromParts("package", packageName, null)
+        intent.data = uri
+        startActivity(intent)
+    }
+
+    override fun onResumeFragments() {
+        super.onResumeFragments()
+        if (allPermissionsGranted()) {
+            startCamera()
+            showRejectedPermission(false)
+        } else {
+            showRejectedPermission(true)
         }
     }
 
