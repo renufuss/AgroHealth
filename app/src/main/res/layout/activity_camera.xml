@@ -58,4 +58,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/button_camera" />
 
+    <include
+        android:id="@+id/layout_profile_error_network"
+        android:visibility="gone"
+        layout="@layout/layout_permission_rejected"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

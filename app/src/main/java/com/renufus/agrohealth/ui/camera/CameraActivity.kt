@@ -17,6 +17,7 @@ import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.renufus.agrohealth.R
@@ -54,7 +55,6 @@ class CameraActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(binding.root)
-
         if (allPermissionsGranted()) {
             startCamera()
         } else {
@@ -212,9 +212,9 @@ class CameraActivity : AppCompatActivity() {
         if (requestCode == REQUEST_PERMISSION_CODE) {
             if (allPermissionsGranted()) {
                 startCamera()
+                showRejectedPermission(false)
             } else {
-                showToast("Permission not granted by user")
-                finish()
+                showRejectedPermission(true)
             }
         }
     }
@@ -252,6 +252,45 @@ class CameraActivity : AppCompatActivity() {
 
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun hideUserInterface(status: Boolean) {
+        when (status) {
+            true -> {
+                binding.viewFinder.visibility = View.GONE
+                binding.imageViewCameraFrame.visibility = View.GONE
+                binding.imageViewCameraSwitch.visibility = View.GONE
+                binding.imageViewCameraGallery.visibility = View.GONE
+                binding.imageViewCameraButtonCapture.visibility = View.GONE
+            }
+            false -> {
+                binding.viewFinder.visibility = View.VISIBLE
+                binding.imageViewCameraFrame.visibility = View.VISIBLE
+                binding.imageViewCameraSwitch.visibility = View.VISIBLE
+                binding.imageViewCameraGallery.visibility = View.VISIBLE
+                binding.imageViewCameraButtonCapture.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    private fun showRejectedPermission(status: Boolean) {
+        val layoutErrorNetwork = findViewById<ConstraintLayout>(R.id.layout_profile_error_network)
+        when (status) {
+            true -> {
+                hideUserInterface(true)
+                layoutErrorNetwork?.visibility = View.VISIBLE
+                binding.layoutProfileErrorNetwork.imageViewLayoutPermissionRejectedButtonBack.setOnClickListener {
+                    finish()
+                }
+                binding.layoutProfileErrorNetwork.buttonLayoutPermissionRejected.setOnClickListener {
+                    ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_PERMISSION_CODE)
+                }
+            }
+            false -> {
+                hideUserInterface(false)
+                layoutErrorNetwork?.visibility = View.GONE
+            }
+        }
     }
 
     companion object {
