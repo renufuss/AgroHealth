@@ -7,7 +7,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.renufus.agrohealth.R
+import com.renufus.agrohealth.data.model.predictDisease.PredictData
 import com.renufus.agrohealth.data.model.predictDisease.predictHistory.PredictHistoryItem
+import com.renufus.agrohealth.data.model.predictDisease.predictResult.PredictItem
 import com.renufus.agrohealth.databinding.ActivityPredictDiseaseResultBinding
 import com.renufus.agrohealth.utility.GeneralUtility
 
@@ -27,27 +29,33 @@ class PredictDiseaseResultActivity : AppCompatActivity() {
     }
 
     private fun setDiseaseData() {
-        val receivedDisease = intent.getParcelableExtra<PredictHistoryItem>(DISEASE_DATA)
+        val receivedDiseaseHistory = intent.getParcelableExtra<PredictHistoryItem>(DISEASE_DATA)
+        val receivedDiseaseProcess = intent.getParcelableExtra<PredictItem>(DISEASE_SCAN)
 
-        if (receivedDisease != null) {
-            binding.textViewPredictDiseaseDiseaseName.text = receivedDisease.diseaseName
-            binding.textViewPredictDiseaseDiseaseDescription.text = receivedDisease.diseaseDescription
-            binding.textViewPredictDiseaseDiseaseSolution.text = receivedDisease.diseaseSolution
+        val diseaseItem: PredictData? = receivedDiseaseHistory ?: receivedDiseaseProcess
 
-            Glide.with(binding.imageViewPredictDiseasePreview)
-                .load(receivedDisease.imageUrl)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .override(800, 600)
-                .apply(RequestOptions().encodeFormat(Bitmap.CompressFormat.JPEG))
-                .thumbnail(0.25f)
-                .placeholder(R.drawable.text_logo)
-                .error(R.drawable.text_logo)
-                .centerCrop()
-                .into(binding.imageViewPredictDiseasePreview)
+        diseaseItem?.let { item ->
+            with(binding) {
+                textViewPredictDiseaseDiseaseName.text = item.diseaseName
+                textViewPredictDiseaseDiseaseDescription.text = item.diseaseDescription
+                textViewPredictDiseaseDiseaseSolution.text = item.diseaseSolution
+
+                Glide.with(imageViewPredictDiseasePreview)
+                    .load(item.imageUrl)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .override(800, 600)
+                    .apply(RequestOptions().encodeFormat(Bitmap.CompressFormat.JPEG))
+                    .thumbnail(0.25f)
+                    .placeholder(R.drawable.text_logo)
+                    .error(R.drawable.text_logo)
+                    .centerCrop()
+                    .into(imageViewPredictDiseasePreview)
+            }
         }
     }
 
     companion object {
         const val DISEASE_DATA = "DISEASE_DATA"
+        const val DISEASE_SCAN = "DISEASE_SCAN"
     }
 }

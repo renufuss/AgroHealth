@@ -42,4 +42,7 @@ class ForumViewModel(private val repository: ForumRepository, val userPreference
             }
         }
     }
+
+    fun newPostForum() {
+    }
 }

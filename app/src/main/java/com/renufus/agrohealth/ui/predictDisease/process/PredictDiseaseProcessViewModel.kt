@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.renufus.agrohealth.data.model.GeneralResponse
-import com.renufus.agrohealth.data.model.predictDisease.PredictResponse
+import com.renufus.agrohealth.data.model.predictDisease.predictResult.PredictResponse
 import com.renufus.agrohealth.data.preferences.UserPreferences
 import com.renufus.agrohealth.repositories.PredictRepository
 import com.renufus.agrohealth.repositories.UserRepository

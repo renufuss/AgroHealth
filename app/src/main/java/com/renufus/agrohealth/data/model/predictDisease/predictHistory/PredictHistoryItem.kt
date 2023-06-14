@@ -2,32 +2,33 @@ package com.renufus.agrohealth.data.model.predictDisease.predictHistory
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import com.renufus.agrohealth.data.model.predictDisease.PredictData
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class PredictHistoryItem(
 
     @field:SerializedName("diseaseName")
-    val diseaseName: String? = null,
+    override val diseaseName: String? = null,
 
     @field:SerializedName("createdAt")
-    val createdAt: String? = null,
+    val predictedAt: String? = null,
 
     @field:SerializedName("historyId")
     val historyId: String? = null,
 
     @field:SerializedName("imageUrl")
-    val imageUrl: String? = null,
+    override val imageUrl: String? = null,
 
     @field:SerializedName("diseaseSolution")
-    val diseaseSolution: String? = null,
+    override val diseaseSolution: String? = null,
 
     @field:SerializedName("diseaseDescription")
-    val diseaseDescription: String? = null,
+    override val diseaseDescription: String? = null,
 
     @field:SerializedName("_id")
     val id: String? = null,
 
     @field:SerializedName("email")
     val email: String? = null,
-) : Parcelable
+) : PredictData, Parcelable

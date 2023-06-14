@@ -35,7 +35,7 @@ class PredictHistoryAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val history = histories[position]
         holder.binding.textViewHistoryItemDiseaseName.text = history.diseaseName
-        holder.binding.textViewHistoryItemPredictDate.text = history.createdAt
+        holder.binding.textViewHistoryItemPredictDate.text = history.predictedAt
         Glide.with(holder.binding.imageViewHistoryItemPreview)
             .load(history.imageUrl)
             .placeholder(R.drawable.text_logo)

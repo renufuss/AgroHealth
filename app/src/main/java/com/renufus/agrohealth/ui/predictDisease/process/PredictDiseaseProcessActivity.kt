@@ -1,12 +1,12 @@
 package com.renufus.agrohealth.ui.predictDisease.process
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +17,7 @@ import com.renufus.agrohealth.data.model.camera.MyImage
 import com.renufus.agrohealth.databinding.ActivityPredictDiseaseProcessBinding
 import com.renufus.agrohealth.ui.auth.login.LoginActivity
 import com.renufus.agrohealth.ui.camera.CameraActivity
+import com.renufus.agrohealth.ui.predictDisease.result.PredictDiseaseResultActivity
 import com.renufus.agrohealth.utility.Constants
 import com.renufus.agrohealth.utility.GeneralUtility
 import com.renufus.agrohealth.utility.rotateBitmap
@@ -42,6 +43,7 @@ class PredictDiseaseProcessActivity : AppCompatActivity() {
         utility.setStatusBarColor(this@PredictDiseaseProcessActivity, Color.WHITE)
 
         utility.setButtonClickAnimation(binding.imageViewProcessCameraButtonBack, R.anim.button_click_animation) {
+            utility.moveToAnotherActivity(this@PredictDiseaseProcessActivity, CameraActivity::class.java)
             finish()
         }
 
@@ -98,7 +100,10 @@ class PredictDiseaseProcessActivity : AppCompatActivity() {
                         if (!errorStatus) {
                             viewModel.prediction.observe(this) { prediction ->
                                 showLoading(false)
-                                Log.d("predictionIs", prediction.toString())
+                                val intent = Intent(this@PredictDiseaseProcessActivity, PredictDiseaseResultActivity::class.java)
+                                intent.putExtra(PredictDiseaseResultActivity.DISEASE_SCAN, prediction.data)
+                                startActivity(intent)
+                                finish()
                             }
                         } else {
                             viewModel.errorMessage.observe(this) { error ->
