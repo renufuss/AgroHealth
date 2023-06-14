@@ -78,8 +78,9 @@ class HistoryFragment : Fragment() {
             } else {
                 viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
                     binding.layoutHistoryErrorNetwork.textViewLayoutErrorNetwork.text = error
+                    binding.layoutHistoryErrorNetwork.buttonLayoutErrorNetwork.text = "Login"
                     binding.layoutHistoryErrorNetwork.buttonLayoutErrorNetwork.setOnClickListener {
-                        getHistory()
+                        logout()
                     }
                     binding.nestedScrollHistory.visibility = View.GONE
                     layoutErrorNetwork?.visibility = View.VISIBLE
@@ -89,6 +90,13 @@ class HistoryFragment : Fragment() {
                 showLoading(false)
             }, utility.delayLoading)
         }
+    }
+
+    private fun logout() {
+        viewModel.userPreferences.setStatusLogin(false)
+        viewModel.userPreferences.setToken("tokenApi")
+
+        utility.moveToAnotherActivity(requireContext(), LoginActivity::class.java)
     }
 
     private fun checkLogin() {

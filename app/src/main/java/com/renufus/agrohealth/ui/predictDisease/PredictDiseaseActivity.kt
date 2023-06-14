@@ -15,6 +15,7 @@ import com.renufus.agrohealth.R
 import com.renufus.agrohealth.data.model.camera.CameraModel
 import com.renufus.agrohealth.data.model.camera.MyImage
 import com.renufus.agrohealth.databinding.ActivityPredictDiseaseBinding
+import com.renufus.agrohealth.ui.auth.login.LoginActivity
 import com.renufus.agrohealth.ui.camera.CameraActivity
 import com.renufus.agrohealth.utility.Constants
 import com.renufus.agrohealth.utility.GeneralUtility
@@ -111,6 +112,10 @@ class PredictDiseaseActivity : AppCompatActivity() {
                     viewModel.errorMessage.observe(this) { error ->
                         showLoading(false)
                         binding.textViewProcessCameraDescription.text = error
+                        binding.buttonProcessCameraTryAgain.text = "Login"
+                        binding.buttonProcessCameraTryAgain.setOnClickListener {
+                            logout()
+                        }
                         binding.buttonProcessCameraTryAgain.visibility = View.VISIBLE
                     }
                 }
@@ -160,6 +165,13 @@ class PredictDiseaseActivity : AppCompatActivity() {
                 binding.progressBarProcessCameraLoading.visibility = View.GONE
             }
         }
+    }
+
+    private fun logout() {
+        viewModel.userPreferences.setStatusLogin(false)
+        viewModel.userPreferences.setToken("tokenApi")
+
+        utility.moveToAnotherActivity(this@PredictDiseaseActivity, LoginActivity::class.java)
     }
     companion object {
         const val CAMERA_X_RESULT = "cameraXResult"

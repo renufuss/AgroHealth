@@ -77,8 +77,9 @@ class ProfileFragment : Fragment() {
             } else {
                 viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
                     binding.layoutProfileErrorNetwork.textViewLayoutErrorNetwork.text = error
+                    binding.layoutProfileErrorNetwork.buttonLayoutErrorNetwork.text = "Login"
                     binding.layoutProfileErrorNetwork.buttonLayoutErrorNetwork.setOnClickListener {
-                        getProfile()
+                        logout()
                     }
                     layoutErrorNetwork?.visibility = View.VISIBLE
                 }

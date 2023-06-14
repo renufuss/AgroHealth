@@ -59,7 +59,7 @@ class HistoryViewModel(private val repository: PredictRepository, val userPrefer
                     errorMessage.setValue(errorResponse.message)
                     errorTokenStatus.setValue(true)
                 }
-            } catch (e: java.lang.Exception) {
+            } catch (e: Exception) {
                 errorStatus.setValue(true)
                 errorTokenStatus.setValue(true)
                 errorMessage.setValue("Your token is expired")
