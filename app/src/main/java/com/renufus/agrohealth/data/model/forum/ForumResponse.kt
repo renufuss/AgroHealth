@@ -4,11 +4,11 @@ import com.google.gson.annotations.SerializedName
 
 data class ForumResponse(
 
-    @field:SerializedName("totalResult")
-    val totalResult: Int? = null,
+    @field:SerializedName("message")
+    val message: String? = null,
 
-    @field:SerializedName("data")
-    val data: List<ForumItem>,
+    @field:SerializedName("allPost")
+    val allPost: List<ForumItem>,
 
     @field:SerializedName("status")
     val status: Int? = null,

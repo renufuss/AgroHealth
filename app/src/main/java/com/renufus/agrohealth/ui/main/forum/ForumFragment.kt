@@ -45,6 +45,7 @@ class ForumFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.recyclerViewForumContent.adapter = forumAdapter
+        checkLogin()
         getForumContent()
     }
 
@@ -58,7 +59,7 @@ class ForumFragment : Fragment() {
             showLoading(true)
             if (!errorStatus) {
                 viewModel.forumContents.observe(viewLifecycleOwner) { forum ->
-                    forumAdapter.add(forum.data)
+                    forumAdapter.add(forum.allPost)
                 }
                 binding.nestedScrollForum.visibility = View.VISIBLE
             } else {
@@ -89,12 +90,22 @@ class ForumFragment : Fragment() {
         }
     }
 
+    private fun checkLogin() {
+        val loginStatus = viewModel.userPreferences.getStatusLogin()
+
+        if (loginStatus) {
+            binding.cardForumNewPostBorder.visibility = View.VISIBLE
+        } else {
+            binding.cardForumNewPostBorder.visibility = View.GONE
+        }
+    }
+
     private val forumAdapter by lazy {
         ForumAdapter(
             arrayListOf(),
             object : ForumAdapter.OnAdapterListener {
                 override fun onClick(forum: ForumItem) {
-                    Toast.makeText(requireContext(), "${forum.id} clicked", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "${forum._id} clicked", Toast.LENGTH_SHORT).show()
                 }
             },
             object : ForumAdapter.OnImageClickListener {

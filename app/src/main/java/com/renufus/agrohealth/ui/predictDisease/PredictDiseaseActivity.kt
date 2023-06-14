@@ -87,14 +87,25 @@ class PredictDiseaseActivity : AppCompatActivity() {
                 file.name,
                 requestImageFile,
             )
-            viewModel.predictDisease(imageMultipart)
-
-            viewModel.errorStatus.observe(this) { errorStatus ->
+            viewModel.refreshToken()
+            viewModel.errorTokenStatus.observe(this) { errorTokenStatus ->
                 showLoading(true)
-                if (!errorStatus) {
-                    viewModel.prediction.observe(this) { prediction ->
-                        showLoading(false)
-                        Log.d("predictionIs", prediction.toString())
+                if (!errorTokenStatus) {
+                    viewModel.predictDisease(imageMultipart)
+                    viewModel.errorStatus.observe(this) { errorStatus ->
+                        showLoading(true)
+                        if (!errorStatus) {
+                            viewModel.prediction.observe(this) { prediction ->
+                                showLoading(false)
+                                Log.d("predictionIs", prediction.toString())
+                            }
+                        } else {
+                            viewModel.errorMessage.observe(this) { error ->
+                                showLoading(false)
+                                binding.textViewProcessCameraDescription.text = error
+                                binding.buttonProcessCameraTryAgain.visibility = View.VISIBLE
+                            }
+                        }
                     }
                 } else {
                     viewModel.errorMessage.observe(this) { error ->

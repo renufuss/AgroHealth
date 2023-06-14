@@ -12,8 +12,8 @@ val predictRepositoryModule = module {
 }
 class PredictRepository(private val apiService: ApiService) {
 
-    suspend fun predictDisease(image: MultipartBody.Part): Response<PredictResponse> {
-        return apiService.predictDisease(image)
+    suspend fun predictDisease(token: String, image: MultipartBody.Part): Response<PredictResponse> {
+        return apiService.predictDisease(token, image)
     }
     suspend fun getPredictHistory(): Response<PredictHistoryResponse> {
         return apiService.getPredictHistory()

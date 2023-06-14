@@ -43,10 +43,11 @@ interface ApiService {
     @Multipart
     @POST("api/predict")
     suspend fun predictDisease(
+        @Header("Authorization") token: String,
         @Part file: MultipartBody.Part,
     ): Response<PredictResponse>
 
-    @GET("forums")
+    @GET("api/forum/posts")
     suspend fun getForumContent(): Response<ForumResponse>
 
     @GET("historyPredicts")

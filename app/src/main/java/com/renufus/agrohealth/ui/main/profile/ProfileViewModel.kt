@@ -61,7 +61,7 @@ class ProfileViewModel(private val repository: UserRepository, val userPreferenc
             } catch (e: Exception) {
                 errorStatus.setValue(true)
                 errorTokenStatus.setValue(true)
-                errorMessage.setValue("A network problem occurred")
+                errorMessage.setValue("Your token is expired")
             }
         }
     }

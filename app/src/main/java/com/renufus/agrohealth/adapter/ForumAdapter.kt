@@ -36,21 +36,21 @@ class ForumAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val forum = forums[position]
-        holder.binding.textViewForumItemUsername.text = forum.author
-        holder.binding.textViewForumItemDate.text = forum.publishedAt
-        holder.binding.textViewForumItemContent.text = forum.content
-        holder.binding.textViewForumItemCommentCounter.text = utility.prettyCount(forum.commentCounter!!)
-        holder.binding.textViewForumItemLikeCounter.text = utility.prettyCount(forum.likeCounter!!)
-        if (forum.contentImage != null) {
+        holder.binding.textViewForumItemUsername.text = forum.email
+        holder.binding.textViewForumItemDate.text = forum.createdAt
+        holder.binding.textViewForumItemContent.text = forum.description
+//        holder.binding.textViewForumItemCommentCounter.text = utility.prettyCount(forum.commentCounter!!)
+//        holder.binding.textViewForumItemLikeCounter.text = utility.prettyCount(forum.likeCounter!!)
+        if (forum.imageUrl != null) {
             Glide.with(holder.binding.imageViewForumItemContentImage)
-                .load(forum.contentImage)
+                .load(forum.imageUrl)
                 .placeholder(R.drawable.text_logo)
                 .error(R.drawable.text_logo)
                 .centerCrop()
                 .into(holder.binding.imageViewForumItemContentImage)
 
             holder.binding.imageViewForumItemContentImage.setOnClickListener {
-                imageClickListener.onImageClick(forum.contentImage)
+                imageClickListener.onImageClick(forum.imageUrl)
             }
         } else {
             holder.binding.imageViewForumItemContentImage.visibility = View.GONE

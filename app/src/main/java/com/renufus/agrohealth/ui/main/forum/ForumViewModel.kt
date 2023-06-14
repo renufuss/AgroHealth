@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.renufus.agrohealth.data.model.GeneralResponse
 import com.renufus.agrohealth.data.model.forum.ForumResponse
+import com.renufus.agrohealth.data.preferences.UserPreferences
 import com.renufus.agrohealth.repositories.ForumRepository
 import com.renufus.agrohealth.utility.SingleEventLiveData
 import kotlinx.coroutines.launch
@@ -13,9 +14,9 @@ import org.koin.dsl.module
 import java.lang.Exception
 
 val forumViewModelModule = module {
-    factory { ForumViewModel(get()) }
+    factory { ForumViewModel(get(), get()) }
 }
-class ForumViewModel(private val repository: ForumRepository) : ViewModel() {
+class ForumViewModel(private val repository: ForumRepository, val userPreferences: UserPreferences) : ViewModel() {
     private val gson = Gson()
     val errorStatus by lazy { SingleEventLiveData<Boolean>() }
     val errorMessage by lazy { SingleEventLiveData<String>() }
