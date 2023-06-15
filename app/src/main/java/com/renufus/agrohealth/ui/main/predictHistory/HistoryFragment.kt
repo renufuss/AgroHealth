@@ -59,7 +59,6 @@ class HistoryFragment : Fragment() {
             if (!errorTokenStatus) {
                 viewModel.getHistory()
                 viewModel.errorStatus.observe(viewLifecycleOwner) { errorStatus ->
-                    showLoading(true)
                     if (!errorStatus) {
                         viewModel.predictHistory.observe(viewLifecycleOwner) { history ->
                             predictHistoryAdapter.add(history.data)

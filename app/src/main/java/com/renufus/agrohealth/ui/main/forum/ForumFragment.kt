@@ -1,7 +1,10 @@
 package com.renufus.agrohealth.ui.main.forum
 
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -10,7 +13,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -20,12 +25,18 @@ import com.renufus.agrohealth.R
 import com.renufus.agrohealth.adapter.ForumAdapter
 import com.renufus.agrohealth.data.model.forum.ForumItem
 import com.renufus.agrohealth.databinding.FragmentForumBinding
+import com.renufus.agrohealth.ui.auth.login.LoginActivity
 import com.renufus.agrohealth.ui.main.forum.detail.DetailForumActivity
 import com.renufus.agrohealth.utility.GeneralUtility
 import com.renufus.agrohealth.utility.uriToFile
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.dsl.module
+import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.FileOutputStream
 
 val forumModule = module {
     factory { ForumFragment() }
@@ -61,6 +72,10 @@ class ForumFragment : Fragment() {
 
         utility.setButtonClickAnimation(binding.imageViewForumRemoveImageNewPost, R.anim.button_click_animation) {
             removeImageNewPost()
+        }
+
+        binding.buttonForumNewPost.setOnClickListener {
+            newPostForum()
         }
     }
 
@@ -139,6 +154,109 @@ class ForumFragment : Fragment() {
         }
     }
 
+    private fun newPostForum() {
+        viewModel.refreshToken()
+        val layoutErrorNetwork = view?.findViewById<ConstraintLayout>(R.id.layout_forum_error_network)
+        layoutErrorNetwork?.visibility = View.GONE
+        binding.nestedScrollForum.visibility = View.VISIBLE
+        binding.buttonForumNewPost.isEnabled = true
+
+        if (binding.textInputEditTextForumNewPost.text!!.isEmpty()) {
+            binding.textInputLayoutForumNewPost.helperText = "Description is required"
+
+            return
+        }
+
+        if (binding.textInputEditTextForumNewPost.text!!.length > 250) {
+            binding.textInputLayoutForumNewPost.helperText = "Maximum character is 250"
+
+            return
+        }
+
+        viewModel.errorTokenStatus.observe(viewLifecycleOwner) { errorTokenStatus ->
+            binding.buttonForumNewPost.isEnabled = false
+            showLoading(true)
+            if (!errorTokenStatus) {
+                val tokenPost = viewModel.userPreferences.getToken()!!
+                val descriptionPost = binding.textInputEditTextForumNewPost.text.toString()
+                var imagePost: MultipartBody.Part? = null
+                if (getFile != null) {
+                    val file = reduceFileImage(getFile as File)
+                    val requestImageFile = file.asRequestBody("image/jpeg".toMediaType())
+                    imagePost = MultipartBody.Part.createFormData(
+                        "image",
+                        file.name,
+                        requestImageFile,
+                    )
+                }
+
+                viewModel.newPostForum(tokenPost, descriptionPost, imagePost)
+
+                viewModel.errorForumPostStatus.observe(viewLifecycleOwner) { errorStatus ->
+                    if (!errorStatus) {
+                        viewModel.forumPost.observe(viewLifecycleOwner) { response ->
+                            Toast.makeText(requireContext(), response.message, Toast.LENGTH_SHORT).show()
+
+                            binding.textInputEditTextForumNewPost.setText("")
+                            removeImageNewPost()
+                            closeKeyboard(requireContext())
+                            getForumContent()
+                        }
+                    } else {
+                        viewModel.errorForumPostMessage.observe(viewLifecycleOwner) { errorMessage ->
+                            Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            } else {
+                viewModel.errorForumPostMessage.observe(viewLifecycleOwner) { error ->
+                    binding.layoutForumErrorNetwork.textViewLayoutErrorNetwork.text = error
+                    binding.layoutForumErrorNetwork.buttonLayoutErrorNetwork.text = "Login"
+                    binding.layoutForumErrorNetwork.buttonLayoutErrorNetwork.setOnClickListener {
+                        logout()
+                    }
+                    binding.nestedScrollForum.visibility = View.GONE
+                    layoutErrorNetwork?.visibility = View.VISIBLE
+                }
+            }
+
+            Handler(Looper.getMainLooper()).postDelayed({
+                showLoading(false)
+                binding.buttonForumNewPost.isEnabled = true
+            }, utility.delayLoading)
+        }
+    }
+
+    fun closeKeyboard(context: Context) {
+        val view = (context as AppCompatActivity).currentFocus
+        if (view != null) {
+            val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(view.windowToken, 0)
+        }
+    }
+
+    private fun logout() {
+        viewModel.userPreferences.setStatusLogin(false)
+        viewModel.userPreferences.setToken("tokenApi")
+
+        utility.moveToAnotherActivity(requireContext(), LoginActivity::class.java)
+    }
+
+    fun reduceFileImage(file: File): File {
+        val bitmap = BitmapFactory.decodeFile(file.path)
+        var compressQuality = 100
+        var streamLength: Int
+        do {
+            val bmpStream = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, compressQuality, bmpStream)
+            val bmpPicByteArray = bmpStream.toByteArray()
+            streamLength = bmpPicByteArray.size
+            compressQuality -= 5
+        } while (streamLength > MAXIMAL_SIZE)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, compressQuality, FileOutputStream(file))
+        return file
+    }
+
     private fun removeImageNewPost() {
         getFile = null
         binding.imageViewForumImageNewPost.visibility = View.GONE
@@ -172,5 +290,9 @@ class ForumFragment : Fragment() {
                 }
             },
         )
+    }
+
+    companion object {
+        const val MAXIMAL_SIZE = 1000000
     }
 }

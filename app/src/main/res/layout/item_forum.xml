@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:expandableTextView="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/border"
@@ -91,7 +90,7 @@
                 app:layout_constraintStart_toStartOf="@id/textView_forumItem_username"
                 android:textStyle="normal"/>
 
-            <io.github.glailton.expandabletextview.ExpandableTextView
+            <TextView
                 android:id="@+id/textView_forumItem_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -100,11 +99,6 @@
                 android:layout_marginStart="50dp"
                 android:layout_marginEnd="20dp"
                 android:textSize="14sp"
-                expandableTextView:readMoreText="more"
-                expandableTextView:readLessText=""
-                expandableTextView:ellipsizeTextColor="@android:color/darker_gray"
-                expandableTextView:collapsedLines="3"
-                expandableTextView:animDuration="500"
                 app:layout_constraintTop_toBottomOf="@id/textView_forumItem_date"
                 app:layout_constraintStart_toStartOf="@id/textView_forumItem_username"
                 android:textStyle="normal"/>

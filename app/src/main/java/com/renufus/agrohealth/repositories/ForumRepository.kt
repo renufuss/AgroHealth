@@ -22,7 +22,7 @@ class ForumRepository(private val apiService: ApiService) {
         return apiService.getForumContentById(id)
     }
 
-    suspend fun newPostForum(token: String, email: String, description: String, image: MultipartBody.Part): Response<NewPostResponse> {
-        return apiService.newPostForum(token, email, description, image)
+    suspend fun newPostForum(token: String, description: String, image: MultipartBody.Part?): Response<NewPostResponse> {
+        return apiService.newPostForum(token, description, image)
     }
 }

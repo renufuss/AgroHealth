@@ -67,8 +67,7 @@ interface ApiService {
     @POST("/api/forum/user/posts")
     suspend fun newPostForum(
         @Header("Authorization") token: String,
-        @Part("email") email: String,
         @Part("description") description: String,
-        @Part file: MultipartBody.Part,
+        @Part file: MultipartBody.Part?,
     ): Response<NewPostResponse>
 }
