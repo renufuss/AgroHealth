@@ -155,27 +155,26 @@ class ForumFragment : Fragment() {
     }
 
     private fun newPostForum() {
-        viewModel.refreshToken()
         val layoutErrorNetwork = view?.findViewById<ConstraintLayout>(R.id.layout_forum_error_network)
         layoutErrorNetwork?.visibility = View.GONE
         binding.nestedScrollForum.visibility = View.VISIBLE
-        binding.buttonForumNewPost.isEnabled = true
+        showLoading(true)
+        binding.buttonForumNewPost.isEnabled = false
 
-        if (binding.textInputEditTextForumNewPost.text!!.isEmpty()) {
-            binding.textInputLayoutForumNewPost.helperText = "Description is required"
+        val validPost = validationPost()
+        if (validPost) {
+            runPostForum()
+        } else {
+            showLoading(false)
 
-            return
+            binding.buttonForumNewPost.isEnabled = true
         }
+    }
 
-        if (binding.textInputEditTextForumNewPost.text!!.length > 250) {
-            binding.textInputLayoutForumNewPost.helperText = "Maximum character is 250"
-
-            return
-        }
-
+    private fun runPostForum() {
+        viewModel.refreshToken()
+        val layoutErrorNetwork = view?.findViewById<ConstraintLayout>(R.id.layout_forum_error_network)
         viewModel.errorTokenStatus.observe(viewLifecycleOwner) { errorTokenStatus ->
-            binding.buttonForumNewPost.isEnabled = false
-            showLoading(true)
             if (!errorTokenStatus) {
                 val tokenPost = viewModel.userPreferences.getToken()!!
                 val descriptionPost = binding.textInputEditTextForumNewPost.text.toString()
@@ -227,7 +226,28 @@ class ForumFragment : Fragment() {
         }
     }
 
-    fun closeKeyboard(context: Context) {
+    private fun validationPost(): Boolean {
+        val descriptionEditText = binding.textInputEditTextForumNewPost
+
+        val description = descriptionEditText.text?.trim().toString()
+
+        if (description.isBlank() || description.length > 250) {
+            if (description.isBlank()) {
+                binding.textInputLayoutForumNewPost.helperText = "Description is required"
+            }
+
+            if (description.length > 250) {
+                binding.textInputLayoutForumNewPost.helperText = "Maximum character is 250"
+            }
+
+            return false
+        } else {
+            binding.textInputLayoutForumNewPost.helperText = ""
+            return true
+        }
+    }
+
+    private fun closeKeyboard(context: Context) {
         val view = (context as AppCompatActivity).currentFocus
         if (view != null) {
             val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

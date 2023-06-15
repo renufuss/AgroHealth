@@ -25,7 +25,7 @@ class ForumViewModel(private val repository: ForumRepository, val userPreference
     val errorMessage by lazy { SingleEventLiveData<String>() }
     val forumContents by lazy { MutableLiveData<ForumResponse>() }
 
-    val forumPost by lazy { MutableLiveData<NewPostResponse>() }
+    val forumPost by lazy { SingleEventLiveData<NewPostResponse>() }
     val errorTokenStatus by lazy { SingleEventLiveData<Boolean>() }
     val errorForumPostStatus by lazy { SingleEventLiveData<Boolean>() }
     val errorForumPostMessage by lazy { SingleEventLiveData<String>() }
@@ -56,7 +56,7 @@ class ForumViewModel(private val repository: ForumRepository, val userPreference
                 val response = repository.newPostForum(token, description, image)
 
                 if (response.isSuccessful) {
-                    forumPost.value = response.body()
+                    forumPost.setValue(response.body()!!)
                     errorForumPostStatus.setValue(false)
                 } else {
                     val errorBody = response.errorBody()?.string()
