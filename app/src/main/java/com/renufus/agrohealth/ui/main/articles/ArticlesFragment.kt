@@ -2,12 +2,9 @@ package com.renufus.agrohealth.ui.main.articles
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.renufus.agrohealth.R
 import com.renufus.agrohealth.adapter.ArticleAdapter
@@ -16,6 +13,7 @@ import com.renufus.agrohealth.data.model.articles.ArticlesItem
 import com.renufus.agrohealth.data.model.articles.CategoryItem
 import com.renufus.agrohealth.databinding.FragmentArticlesBinding
 import com.renufus.agrohealth.ui.main.articles.detail.DetailArticleActivity
+import com.renufus.agrohealth.ui.main.articles.detail.DetailArticleFunction
 import com.renufus.agrohealth.utility.GeneralUtility
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.dsl.module
@@ -32,6 +30,8 @@ class ArticlesFragment : Fragment(), CategoryAdapter.OnAdapterListener {
 
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var articleAdapter: ArticleAdapter
+
+    private lateinit var detailArticleFunction: DetailArticleFunction
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,14 +51,27 @@ class ArticlesFragment : Fragment(), CategoryAdapter.OnAdapterListener {
         binding.recyclerViewArticlesCategory.adapter = categoryAdapter
         binding.recyclerViewArticlesItem.adapter = articleAdapter
 
+        detailArticleFunction = DetailArticleFunction(
+            viewModel,
+            view,
+            viewLifecycleOwner,
+            binding,
+            utility,
+            articleAdapter,
+        )
+
+        init()
+    }
+
+    private fun init() {
         categoryAdapter.setSelectedCategory(viewModel.categoryId)
-        getArticles(viewModel.categoryId)
+        detailArticleFunction.getArticles(viewModel.categoryId)
     }
 
     override fun onResume() {
         super.onResume()
         categoryAdapter.setSelectedCategory(viewModel.categoryId)
-        getArticles(viewModel.categoryId)
+        detailArticleFunction.getArticles(viewModel.categoryId)
     }
 
     private fun createCategoryAdapter(): CategoryAdapter {
@@ -82,68 +95,7 @@ class ArticlesFragment : Fragment(), CategoryAdapter.OnAdapterListener {
         )
     }
 
-    private fun getArticles(category: Int) {
-        viewModel.getArticles(category)
-
-        val layoutErrorNetwork = view?.findViewById<ConstraintLayout>(R.id.layout_article_error_network)
-        layoutErrorNetwork?.visibility = View.GONE
-        binding.nestedScrollArticle.visibility = View.VISIBLE
-
-        val isIntro = 1
-        val isHeadline = 1
-        val isBasic = 2
-        if (category == isIntro) {
-            ArticleAdapter.VIEW_TYPES = isHeadline
-        } else {
-            ArticleAdapter.VIEW_TYPES = isBasic
-        }
-
-        viewModel.errorStatus.observe(viewLifecycleOwner) { errorStatus ->
-            showLoading(true)
-            if (!errorStatus) {
-                viewModel.articleItem.observe(viewLifecycleOwner) { articles ->
-                    binding.imageViewArticleAlert.visibility =
-                        if (articles.isEmpty()) View.VISIBLE else View.GONE
-                    binding.textViewArticleAlert.visibility =
-                        if (articles.isEmpty()) View.VISIBLE else View.GONE
-                    binding.recyclerViewArticlesItem.visibility =
-                        if (articles.isEmpty()) View.GONE else View.VISIBLE
-                    articleAdapter.add(articles)
-                }
-            } else {
-                viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
-                    binding.imageViewArticleAlert.visibility = View.GONE
-                    binding.textViewArticleAlert.visibility = View.GONE
-                    binding.nestedScrollArticle.visibility = View.GONE
-                    binding.layoutArticleErrorNetwork.textViewLayoutErrorNetwork.text = error
-                    binding.layoutArticleErrorNetwork.buttonLayoutErrorNetwork.setOnClickListener {
-                        getArticles(viewModel.categoryId)
-                    }
-
-                    layoutErrorNetwork?.visibility = View.VISIBLE
-                }
-            }
-            Handler(Looper.getMainLooper()).postDelayed({
-                showLoading(false)
-                binding.nestedScrollArticle.scrollTo(0, 0)
-            }, utility.delayLoading)
-        }
-    }
-
-    private fun showLoading(loading: Boolean) {
-        when (loading) {
-            true -> {
-                binding.progressBarArticleTop.visibility = View.VISIBLE
-                binding.recyclerViewArticlesItem.visibility = View.GONE
-            }
-            else -> {
-                binding.progressBarArticleTop.visibility = View.INVISIBLE
-                binding.recyclerViewArticlesItem.visibility = View.VISIBLE
-            }
-        }
-    }
-
     override fun onClick(category: CategoryItem) {
-        getArticles(category.id.toInt())
+        detailArticleFunction.getArticles(category.id.toInt())
     }
 }
