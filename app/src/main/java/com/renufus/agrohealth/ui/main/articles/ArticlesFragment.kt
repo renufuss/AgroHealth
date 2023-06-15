@@ -24,11 +24,14 @@ val articleModule = module {
     factory { ArticlesFragment() }
 }
 
-class ArticlesFragment : Fragment() {
+class ArticlesFragment : Fragment(), CategoryAdapter.OnAdapterListener {
 
     private lateinit var binding: FragmentArticlesBinding
     private val viewModel: ArticlesViewModel by viewModel<ArticlesViewModel>()
     private val utility = GeneralUtility()
+
+    private lateinit var categoryAdapter: CategoryAdapter
+    private lateinit var articleAdapter: ArticleAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,16 +40,46 @@ class ArticlesFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         binding = FragmentArticlesBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        categoryAdapter = createCategoryAdapter()
+        articleAdapter = createArticleAdapter()
+
         binding.recyclerViewArticlesCategory.adapter = categoryAdapter
         binding.recyclerViewArticlesItem.adapter = articleAdapter
 
+        categoryAdapter.setSelectedCategory(viewModel.categoryId)
         getArticles(viewModel.categoryId)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        categoryAdapter.setSelectedCategory(viewModel.categoryId)
+        getArticles(viewModel.categoryId)
+    }
+
+    private fun createCategoryAdapter(): CategoryAdapter {
+        val categoryId = resources.getStringArray(R.array.category_id)
+        val categoryName = resources.getStringArray(R.array.category_name)
+        val categories = viewModel.getCategories(categoryId, categoryName)
+
+        return CategoryAdapter(categories, this)
+    }
+
+    private fun createArticleAdapter(): ArticleAdapter {
+        return ArticleAdapter(
+            arrayListOf(),
+            object : ArticleAdapter.OnAdapterListener {
+                override fun onClick(article: ArticlesItem) {
+                    val intent = Intent(requireContext(), DetailArticleActivity::class.java)
+                    intent.putExtra(DetailArticleActivity.URL, article.url)
+                    startActivity(intent)
+                }
+            },
+        )
     }
 
     private fun getArticles(category: Int) {
@@ -69,9 +102,12 @@ class ArticlesFragment : Fragment() {
             showLoading(true)
             if (!errorStatus) {
                 viewModel.articleItem.observe(viewLifecycleOwner) { articles ->
-                    binding.imageViewArticleAlert.visibility = if (articles.isEmpty()) View.VISIBLE else View.GONE
-                    binding.textViewArticleAlert.visibility = if (articles.isEmpty()) View.VISIBLE else View.GONE
-                    binding.recyclerViewArticlesItem.visibility = if (articles.isEmpty()) View.GONE else View.VISIBLE
+                    binding.imageViewArticleAlert.visibility =
+                        if (articles.isEmpty()) View.VISIBLE else View.GONE
+                    binding.textViewArticleAlert.visibility =
+                        if (articles.isEmpty()) View.VISIBLE else View.GONE
+                    binding.recyclerViewArticlesItem.visibility =
+                        if (articles.isEmpty()) View.GONE else View.VISIBLE
                     articleAdapter.add(articles)
                 }
             } else {
@@ -100,7 +136,6 @@ class ArticlesFragment : Fragment() {
                 binding.progressBarArticleTop.visibility = View.VISIBLE
                 binding.recyclerViewArticlesItem.visibility = View.GONE
             }
-
             else -> {
                 binding.progressBarArticleTop.visibility = View.INVISIBLE
                 binding.recyclerViewArticlesItem.visibility = View.VISIBLE
@@ -108,31 +143,7 @@ class ArticlesFragment : Fragment() {
         }
     }
 
-    private val articleAdapter by lazy {
-        ArticleAdapter(
-            arrayListOf(),
-            object : ArticleAdapter.OnAdapterListener {
-                override fun onClick(article: ArticlesItem) {
-                    val intent = Intent(requireContext(), DetailArticleActivity::class.java)
-                    intent.putExtra(DetailArticleActivity.URL, article.url)
-
-                    startActivity(intent)
-                }
-            },
-        )
-    }
-
-    private val categoryAdapter by lazy {
-        val categoryId = resources.getStringArray(R.array.category_id)
-        val categoryName = resources.getStringArray(R.array.category_name)
-        val categories = viewModel.getCategories(categoryId, categoryName)
-        CategoryAdapter(
-            categories,
-            object : CategoryAdapter.OnAdapterListener {
-                override fun onClick(category: CategoryItem) {
-                    getArticles(category.id.toInt())
-                }
-            },
-        )
+    override fun onClick(category: CategoryItem) {
+        getArticles(category.id.toInt())
     }
 }

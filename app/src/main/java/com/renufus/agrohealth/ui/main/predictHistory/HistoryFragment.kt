@@ -93,6 +93,12 @@ class HistoryFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        checkLogin()
+    }
+
     private fun logout() {
         viewModel.userPreferences.setStatusLogin(false)
         viewModel.userPreferences.setToken("tokenApi")

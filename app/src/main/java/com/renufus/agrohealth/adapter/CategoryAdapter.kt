@@ -2,18 +2,17 @@ package com.renufus.agrohealth.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.renufus.agrohealth.R
 import com.renufus.agrohealth.data.model.articles.CategoryItem
 import com.renufus.agrohealth.databinding.ItemCategoryBinding
 
 class CategoryAdapter(
-    val categories: List<CategoryItem>,
-    val listener: OnAdapterListener,
+    private val categories: List<CategoryItem>,
+    private val listener: OnAdapterListener,
 ) : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
 
-    private val items = arrayListOf<TextView>()
+    private var selectedCategoryIndex: Int = -1
 
     class ViewHolder(val binding: ItemCategoryBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -21,25 +20,35 @@ class CategoryAdapter(
         fun onClick(category: CategoryItem)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
-        ItemCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false),
-    )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = ItemCategoryBinding.inflate(inflater, parent, false)
+        return ViewHolder(binding)
+    }
 
     override fun getItemCount() = categories.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val category = categories[position]
-        holder.binding.textViewCategoryItemName.text = category.name
-        items.add(holder.binding.textViewCategoryItemName)
-        holder.itemView.setOnClickListener {
-            listener.onClick(category)
-            setColor(holder.binding.textViewCategoryItemName)
+        val textViewCategoryItemName = holder.binding.textViewCategoryItemName
+        textViewCategoryItemName.text = category.name
+
+        val categoryIndex = position + 1 // Adjust the index to start from 1
+
+        if (categoryIndex == selectedCategoryIndex) {
+            textViewCategoryItemName.setBackgroundResource(android.R.color.darker_gray)
+        } else {
+            textViewCategoryItemName.setBackgroundResource(R.color.white)
         }
-        setColor(items[0])
+
+        textViewCategoryItemName.setOnClickListener {
+            listener.onClick(category)
+            setSelectedCategory(categoryIndex)
+        }
     }
 
-    private fun setColor(textView: TextView) {
-        items.forEach { it.setBackgroundResource(R.color.white) }
-        textView.setBackgroundResource(android.R.color.darker_gray)
+    fun setSelectedCategory(index: Int) {
+        selectedCategoryIndex = index
+        notifyDataSetChanged()
     }
 }
