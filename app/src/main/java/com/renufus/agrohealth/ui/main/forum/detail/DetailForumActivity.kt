@@ -16,7 +16,7 @@ class DetailForumActivity : AppCompatActivity() {
     val utility = GeneralUtility()
 
     val viewModel: DetailForumViewModel by viewModel<DetailForumViewModel>()
-    val detailForumFunction = DetailForumFunction(this)
+    private val detailForumFunction = DetailForumFunction(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
