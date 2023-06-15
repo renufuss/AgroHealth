@@ -4,15 +4,17 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import com.renufus.agrohealth.R
 import com.renufus.agrohealth.databinding.ActivityRegisterBinding
 import com.renufus.agrohealth.ui.auth.login.LoginActivity
 import com.renufus.agrohealth.utility.GeneralUtility
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.dsl.module
+import www.sanju.motiontoast.MotionToast
+import www.sanju.motiontoast.MotionToastStyle
 
 val registerModule = module {
     factory { RegisterActivity() }
@@ -77,13 +79,6 @@ class RegisterActivity : AppCompatActivity() {
                 binding.textInputLayoutRegisterConfirmPassword.helperText = ""
             }
 
-            if (password.length < 8) {
-                binding.textInputLayoutRegisterPassword.helperText =
-                    "Password must be longer than 8 characters"
-            } else {
-                binding.textInputLayoutRegisterPassword.helperText = ""
-            }
-
             val isPasswordNotEmpty: Boolean = password.isNotEmpty() && confirmPassword.isNotEmpty()
             if (isPasswordNotEmpty) {
                 if (password != confirmPassword) {
@@ -94,6 +89,13 @@ class RegisterActivity : AppCompatActivity() {
                     binding.textInputLayoutRegisterPassword.helperText = ""
                     binding.textInputLayoutRegisterConfirmPassword.helperText = ""
                 }
+            }
+
+            if (password.isNotEmpty() && password.length < 8) {
+                binding.textInputLayoutRegisterPassword.helperText =
+                    "Password must be longer than 8 characters"
+            } else {
+                binding.textInputLayoutRegisterPassword.helperText = ""
             }
 
             if (email.isNotEmpty()) {
@@ -131,7 +133,15 @@ class RegisterActivity : AppCompatActivity() {
             viewModel.errorStatus.observe(this) { error ->
                 if (!error) {
                     binding.textViewRegisterErrorText.visibility = View.GONE
-                    Toast.makeText(this, "You have successfully registered", Toast.LENGTH_SHORT).show()
+                    MotionToast.createToast(
+                        this,
+                        "Success",
+                        "You have successfully registered",
+                        MotionToastStyle.SUCCESS,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular),
+                    )
                     utility.moveToAnotherActivity(this@RegisterActivity, LoginActivity::class.java)
                     finish()
                 } else {
