@@ -18,6 +18,7 @@ import com.renufus.agrohealth.adapter.ForumAdapter
 import com.renufus.agrohealth.data.model.forum.ForumItem
 import com.renufus.agrohealth.databinding.FragmentForumBinding
 import com.renufus.agrohealth.ui.main.forum.detail.DetailForumActivity
+import com.renufus.agrohealth.ui.main.forum.detail.DetailForumFunction.Companion.POST_ID
 import com.renufus.agrohealth.utility.GeneralUtility
 import com.renufus.agrohealth.utility.uriToFile
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -38,7 +39,7 @@ class ForumFragment : Fragment() {
             object : ForumAdapter.OnAdapterListener {
                 override fun onClick(forum: ForumItem) {
                     val intent = Intent(requireContext(), DetailForumActivity::class.java)
-                    DetailForumActivity.POST_ID = forum.id
+                    POST_ID = forum.id
                     startActivity(intent)
                 }
             },
