@@ -112,6 +112,8 @@ class HistoryFragment : Fragment() {
             binding.layoutHistoryNeedLogin.buttonLayoutNeedLogin.setOnClickListener {
                 utility.moveToAnotherActivity(requireContext(), LoginActivity::class.java)
             }
+
+            showLoading(false)
         }
     }
 
