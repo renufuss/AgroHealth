@@ -8,6 +8,7 @@ import com.renufus.agrohealth.data.model.auth.ProfileResponse
 import com.renufus.agrohealth.data.model.auth.RefreshTokenResponse
 import com.renufus.agrohealth.data.model.auth.RegistrationRequest
 import com.renufus.agrohealth.data.model.forum.ForumResponse
+import com.renufus.agrohealth.data.model.forum.detail.DetailForumResponse
 import com.renufus.agrohealth.data.model.forum.newPost.NewPostResponse
 import com.renufus.agrohealth.data.model.predictDisease.predictHistory.PredictHistoryResponse
 import com.renufus.agrohealth.data.model.predictDisease.predictResult.PredictResponse
@@ -19,6 +20,7 @@ import retrofit2.http.Header
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
+import retrofit2.http.Path
 
 interface ApiService {
 
@@ -48,13 +50,18 @@ interface ApiService {
         @Part file: MultipartBody.Part,
     ): Response<PredictResponse>
 
-    @GET("api/forum/posts")
-    suspend fun getForumContent(): Response<ForumResponse>
-
     @GET("/api/user/history")
     suspend fun getPredictHistory(
         @Header("Authorization") token: String,
     ): Response<PredictHistoryResponse>
+
+    @GET("api/forum/posts")
+    suspend fun getForumContent(): Response<ForumResponse>
+
+    @GET("/api/forum/{id}/posts")
+    suspend fun getForumContentById(
+        @Path("id") id: String,
+    ): Response<DetailForumResponse>
 
     @Multipart
     @POST("/api/forum/user/posts")

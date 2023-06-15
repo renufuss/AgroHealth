@@ -11,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -21,6 +20,7 @@ import com.renufus.agrohealth.R
 import com.renufus.agrohealth.adapter.ForumAdapter
 import com.renufus.agrohealth.data.model.forum.ForumItem
 import com.renufus.agrohealth.databinding.FragmentForumBinding
+import com.renufus.agrohealth.ui.main.forum.detail.DetailForumActivity
 import com.renufus.agrohealth.utility.GeneralUtility
 import com.renufus.agrohealth.utility.uriToFile
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -150,7 +150,9 @@ class ForumFragment : Fragment() {
             arrayListOf(),
             object : ForumAdapter.OnAdapterListener {
                 override fun onClick(forum: ForumItem) {
-                    Toast.makeText(requireContext(), "${forum.id} clicked", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(requireContext(), DetailForumActivity::class.java)
+                    DetailForumActivity.POST_ID = forum.id
+                    startActivity(intent)
                 }
             },
             object : ForumAdapter.OnImageClickListener {

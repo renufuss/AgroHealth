@@ -1,8 +1,8 @@
-package com.renufus.agrohealth.data.model.forum
+package com.renufus.agrohealth.data.model.forum.detail
 
 import com.google.gson.annotations.SerializedName
 
-data class ForumItem(
+data class DetailForumItem(
 
     @field:SerializedName("createdAt")
     val createdAt: String? = null,
@@ -13,11 +13,8 @@ data class ForumItem(
     @field:SerializedName("description")
     val description: String? = null,
 
-    @field:SerializedName("modified")
-    val modified: String? = null,
-
-    @field:SerializedName("_id")
-    val id: String,
+    @field:SerializedName("id")
+    val id: String? = null,
 
     @field:SerializedName("email")
     val email: String? = null,

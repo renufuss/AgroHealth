@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.main.forum.detail.DetailForumActivity">
+
+    <ImageView
+        android:id="@+id/imageView_detailForum_topLogo"
+        android:layout_width="160dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="5dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintHorizontal_bias="0.45"
+        android:src="@drawable/logo_with_text_landscape"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="114dp"
+        tools:layout_editor_absoluteY="4dp" />
+
+    <ImageView
+        android:id="@+id/imageView_detailForum_buttonBack"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="15dp"
+        android:src="@drawable/back_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progressBar_detailForum_loading"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:indeterminate="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_detailForum_topLogo"
+        android:visibility="visible"
+        />
+
+
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScroll_detailForum"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar_detailForum_loading">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/border"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="5dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:background="@drawable/card_forum"
+                >
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingTop="20dp"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:paddingBottom="20dp"
+                    android:background="?android:attr/selectableItemBackground">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/imageView_forumDetailItem_imageProfile"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/avatar"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <TextView
+                        android:id="@+id/textView_forumDetailItem_username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="Username Author"
+                        tools:layout_editor_absoluteX="83dp"
+                        tools:layout_editor_absoluteY="11dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="10dp"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toEndOf="@id/imageView_forumDetailItem_imageProfile"
+                        android:layout_marginStart="10dp"
+                        android:textStyle="bold"/>
+
+                    <ImageView
+                        android:visibility="gone"
+                        android:id="@+id/imageView_forumDetailItem_likeLogo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/textView_forumDetailItem_likeCounter"
+                        app:layout_constraintStart_toStartOf="@+id/textView_forumDetailItem_likeCounter"
+                        android:src="@drawable/ic_not_like"
+                        />
+
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/textView_forumDetailItem_likeCounter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="11sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/imageView_forumDetailItem_likeLogo"
+                        tools:text="2050" />
+
+                    <TextView
+                        android:id="@+id/textView_forumDetailItem_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="Date"
+                        tools:layout_editor_absoluteX="83dp"
+                        tools:layout_editor_absoluteY="11dp"
+                        android:layout_marginTop="5dp"
+                        android:textSize="12sp"
+                        android:textColor="@color/gray"
+                        app:layout_constraintTop_toBottomOf="@id/textView_forumDetailItem_username"
+                        app:layout_constraintStart_toStartOf="@id/textView_forumDetailItem_username"
+                        android:textStyle="normal"/>
+
+                    <TextView
+                        android:id="@+id/textView_forumDetailItem_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="Content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="50dp"
+                        android:layout_marginEnd="20dp"
+                        android:textSize="14sp"
+                        app:layout_constraintTop_toBottomOf="@id/textView_forumDetailItem_date"
+                        app:layout_constraintStart_toStartOf="@id/textView_forumDetailItem_username"
+                        android:textStyle="normal"/>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_forumDetailItem_roundedBorder"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="50dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="20dp"
+                        app:cardCornerRadius="10dp"
+                        app:layout_constraintStart_toStartOf="@id/textView_forumDetailItem_username"
+                        app:layout_constraintTop_toBottomOf="@+id/textView_forumDetailItem_content"
+                        >
+                        <ImageView
+                            android:id="@+id/imageView_forumDetailItem_contentImage"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="fitCenter"
+                            android:adjustViewBounds="true"
+                            tools:src="@drawable/logo"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            />
+                    </com.google.android.material.card.MaterialCardView>
+
+
+                    <ImageView
+                        android:visibility="gone"
+                        android:id="@+id/imageView_forumDetailItem_commentLogo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        app:layout_constraintTop_toBottomOf="@id/card_forumDetailItem_roundedBorder"
+                        app:layout_constraintStart_toStartOf="@id/textView_forumDetailItem_username"
+                        android:src="@drawable/ic_comment"
+                        />
+
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/textView_forumDetailItem_commentCounter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="29230"
+                        android:textSize="12sp"
+                        android:layout_marginTop="20dp"
+                        android:textColor="@android:color/darker_gray"
+                        android:textStyle="bold"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintTop_toBottomOf="@id/card_forumDetailItem_roundedBorder"
+                        app:layout_constraintStart_toEndOf="@id/imageView_forumDetailItem_commentLogo"
+                        />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <ImageView
+                android:id="@+id/imageView_detailForum_sorry"
+                android:layout_width="291dp"
+                android:layout_height="299dp"
+                android:src="@drawable/ic_sorry"
+                app:layout_constraintTop_toBottomOf="@+id/border"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:text="We apologize, because the comment feature is currently not available"
+                app:layout_constraintTop_toBottomOf="@+id/imageView_detailForum_sorry"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+    <include
+        android:id="@+id/layout_detailForum_error_network"
+        android:visibility="gone"
+        layout="@layout/layout_error_network"
+        />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

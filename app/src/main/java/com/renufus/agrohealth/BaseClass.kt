@@ -16,6 +16,8 @@ import com.renufus.agrohealth.ui.camera.cameraModule
 import com.renufus.agrohealth.ui.camera.cameraViewModelModule
 import com.renufus.agrohealth.ui.main.articles.articleModule
 import com.renufus.agrohealth.ui.main.articles.articleViewModelModule
+import com.renufus.agrohealth.ui.main.forum.detail.detailForumModule
+import com.renufus.agrohealth.ui.main.forum.detail.detailForumViewModelModule
 import com.renufus.agrohealth.ui.main.forum.forumModule
 import com.renufus.agrohealth.ui.main.forum.forumViewModelModule
 import com.renufus.agrohealth.ui.main.mainModule
@@ -65,6 +67,8 @@ class BaseClass : Application() {
                 mainViewModelModule,
                 cameraModule,
                 cameraViewModelModule,
+                detailForumModule,
+                detailForumViewModelModule,
             )
         }
     }
