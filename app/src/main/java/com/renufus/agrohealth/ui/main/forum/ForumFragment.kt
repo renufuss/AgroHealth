@@ -81,6 +81,7 @@ class ForumFragment : Fragment() {
             binding,
             utility,
             requireContext(),
+            requireActivity(),
         )
 
         init()

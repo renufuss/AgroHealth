@@ -1,5 +1,6 @@
 package com.renufus.agrohealth.ui.main.forum
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -7,9 +8,9 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.LifecycleOwner
 import com.renufus.agrohealth.R
 import com.renufus.agrohealth.adapter.ForumAdapter
@@ -19,6 +20,8 @@ import com.renufus.agrohealth.utility.GeneralUtility
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import www.sanju.motiontoast.MotionToast
+import www.sanju.motiontoast.MotionToastStyle
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -31,6 +34,7 @@ class ForumFunction(
     private val binding: FragmentForumBinding,
     private val utility: GeneralUtility,
     private val context: Context,
+    private val activity: Activity,
 
 ) {
     var getFile: File? = null
@@ -114,7 +118,15 @@ class ForumFunction(
                 viewModel.errorForumPostStatus.observe(viewLifecycleOwner) { errorStatus ->
                     if (!errorStatus) {
                         viewModel.forumPost.observe(viewLifecycleOwner) { response ->
-                            Toast.makeText(context, response.message, Toast.LENGTH_SHORT).show()
+                            MotionToast.createToast(
+                                activity,
+                                "Success",
+                                "Successfully uploaded your post",
+                                MotionToastStyle.SUCCESS,
+                                MotionToast.GRAVITY_BOTTOM,
+                                MotionToast.LONG_DURATION,
+                                ResourcesCompat.getFont(context, www.sanju.motiontoast.R.font.helvetica_regular),
+                            )
 
                             binding.textInputEditTextForumNewPost.setText("")
                             removeImageNewPost()
@@ -123,7 +135,15 @@ class ForumFunction(
                         }
                     } else {
                         viewModel.errorForumPostMessage.observe(viewLifecycleOwner) { errorMessage ->
-                            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+                            MotionToast.createToast(
+                                activity,
+                                "Error",
+                                errorMessage,
+                                MotionToastStyle.ERROR,
+                                MotionToast.GRAVITY_BOTTOM,
+                                MotionToast.LONG_DURATION,
+                                ResourcesCompat.getFont(context, www.sanju.motiontoast.R.font.helvetica_regular),
+                            )
                         }
                     }
                 }
