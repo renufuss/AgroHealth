@@ -10,6 +10,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.LifecycleOwner
 import com.renufus.agrohealth.R
@@ -52,6 +53,16 @@ class ForumFunction(
                     forumAdapter.add(forum.allPost)
                 }
                 binding.nestedScrollForum.visibility = View.VISIBLE
+
+                if (forumAdapter.forums.size <= 0) {
+                    binding.nestedScrollForum.visibility = View.GONE
+                    binding.layoutForumErrorNetwork.imageViewLayoutErrorNetwork.setImageDrawable(
+                        ContextCompat.getDrawable(context, R.drawable.ic_sorry),
+                    )
+                    binding.layoutForumErrorNetwork.textViewLayoutErrorNetwork.text = "Sorry, forum data doesn't exist yet"
+                    binding.layoutForumErrorNetwork.buttonLayoutErrorNetwork.visibility = View.GONE
+                    layoutErrorNetwork?.visibility = View.VISIBLE
+                }
             } else {
                 viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
                     binding.layoutForumErrorNetwork.textViewLayoutErrorNetwork.text = error
@@ -59,6 +70,7 @@ class ForumFunction(
                         getForumContent()
                     }
                     binding.nestedScrollForum.visibility = View.GONE
+                    binding.layoutForumErrorNetwork.buttonLayoutErrorNetwork.visibility = View.VISIBLE
                     layoutErrorNetwork?.visibility = View.VISIBLE
                 }
             }
@@ -150,7 +162,11 @@ class ForumFunction(
             } else {
                 viewModel.errorForumPostMessage.observe(viewLifecycleOwner) { error ->
                     binding.layoutForumErrorNetwork.textViewLayoutErrorNetwork.text = error
+                    binding.layoutForumErrorNetwork.imageViewLayoutErrorNetwork.setImageDrawable(
+                        ContextCompat.getDrawable(context, R.drawable.error_network),
+                    )
                     binding.layoutForumErrorNetwork.buttonLayoutErrorNetwork.text = "Login"
+                    binding.layoutForumErrorNetwork.buttonLayoutErrorNetwork.visibility = View.VISIBLE
                     binding.layoutForumErrorNetwork.buttonLayoutErrorNetwork.setOnClickListener {
                         logout()
                     }

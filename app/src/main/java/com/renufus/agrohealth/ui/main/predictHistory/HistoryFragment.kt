@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.renufus.agrohealth.R
 import com.renufus.agrohealth.adapter.PredictHistoryAdapter
@@ -64,12 +65,26 @@ class HistoryFragment : Fragment() {
                             predictHistoryAdapter.add(history.data)
                         }
                         binding.nestedScrollHistory.visibility = View.VISIBLE
+
+                        if (predictHistoryAdapter.histories.size <= 0) {
+                            binding.nestedScrollHistory.visibility = View.GONE
+                            binding.layoutHistoryErrorNetwork.imageViewLayoutErrorNetwork.setImageDrawable(
+                                ContextCompat.getDrawable(requireContext(), R.drawable.ic_sorry),
+                            )
+                            binding.layoutHistoryErrorNetwork.textViewLayoutErrorNetwork.text = "Umm, your history data is still empty"
+                            binding.layoutHistoryErrorNetwork.buttonLayoutErrorNetwork.visibility = View.GONE
+                            binding.layoutHistoryErrorNetwork.buttonLayoutErrorNetwork.setOnClickListener {
+                                getHistory()
+                            }
+                            layoutErrorNetwork?.visibility = View.VISIBLE
+                        }
                     } else {
                         viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
                             binding.layoutHistoryErrorNetwork.textViewLayoutErrorNetwork.text = error
                             binding.layoutHistoryErrorNetwork.buttonLayoutErrorNetwork.setOnClickListener {
                                 getHistory()
                             }
+                            binding.layoutHistoryErrorNetwork.buttonLayoutErrorNetwork.visibility = View.VISIBLE
                             binding.nestedScrollHistory.visibility = View.GONE
                             layoutErrorNetwork?.visibility = View.VISIBLE
                         }
@@ -79,9 +94,13 @@ class HistoryFragment : Fragment() {
                 viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
                     binding.layoutHistoryErrorNetwork.textViewLayoutErrorNetwork.text = error
                     binding.layoutHistoryErrorNetwork.buttonLayoutErrorNetwork.text = "Login"
+                    binding.layoutHistoryErrorNetwork.imageViewLayoutErrorNetwork.setImageDrawable(
+                        ContextCompat.getDrawable(requireContext(), R.drawable.error_network),
+                    )
                     binding.layoutHistoryErrorNetwork.buttonLayoutErrorNetwork.setOnClickListener {
                         logout()
                     }
+                    binding.layoutHistoryErrorNetwork.buttonLayoutErrorNetwork.visibility = View.VISIBLE
                     binding.nestedScrollHistory.visibility = View.GONE
                     layoutErrorNetwork?.visibility = View.VISIBLE
                 }
