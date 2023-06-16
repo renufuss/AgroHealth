@@ -182,8 +182,9 @@
     </androidx.core.widget.NestedScrollView>
 
     <include
+
         android:id="@+id/layout_forum_error_network"
-        android:visibility="gone"
+        android:visibility="visible"
         layout="@layout/layout_error_network"
         />
 

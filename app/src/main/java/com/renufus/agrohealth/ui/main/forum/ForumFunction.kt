@@ -55,7 +55,7 @@ class ForumFunction(
                 binding.nestedScrollForum.visibility = View.VISIBLE
 
                 if (forumAdapter.forums.size <= 0) {
-                    binding.nestedScrollForum.visibility = View.GONE
+                    binding.nestedScrollForum.visibility = View.VISIBLE
                     binding.layoutForumErrorNetwork.imageViewLayoutErrorNetwork.setImageDrawable(
                         ContextCompat.getDrawable(context, R.drawable.ic_sorry),
                     )
