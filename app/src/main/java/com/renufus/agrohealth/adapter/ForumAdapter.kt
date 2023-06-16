@@ -1,10 +1,13 @@
 package com.renufus.agrohealth.adapter
 
+import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.renufus.agrohealth.R
 import com.renufus.agrohealth.data.model.forum.ForumItem
 import com.renufus.agrohealth.databinding.ItemForumBinding
@@ -44,6 +47,10 @@ class ForumAdapter(
         if (forum.imageUrl != null) {
             Glide.with(holder.binding.imageViewForumItemContentImage)
                 .load(forum.imageUrl)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .override(800, 600)
+                .apply(RequestOptions().encodeFormat(Bitmap.CompressFormat.JPEG))
+                .thumbnail(0.25f)
                 .placeholder(R.drawable.text_logo)
                 .error(R.drawable.text_logo)
                 .centerCrop()
