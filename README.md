@@ -24,9 +24,9 @@ Demo is unavailable right now
 
 ## Installation
 
-[![Download APK](https://img.shields.io/badge/Download%20APK-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://developer.android.com/studio/build/apk)
+[![Download APK](https://img.shields.io/badge/Download%20APK-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://drive.google.com/file/d/1REjBNlAOOtPdTXHdbv8xU6g-iJ23mcJz/view?usp=sharing)
 
-u can download the apk and install in your android smartphone [click here](https://drive.com)
+u can download the apk and install in your android smartphone [click here](https://drive.google.com/file/d/1REjBNlAOOtPdTXHdbv8xU6g-iJ23mcJz/view?usp=sharing)
 
 ## Run Locally
 
