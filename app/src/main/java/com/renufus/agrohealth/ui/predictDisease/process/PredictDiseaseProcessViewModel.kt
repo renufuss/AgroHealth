@@ -48,7 +48,7 @@ class PredictDiseaseViewModel(private val repository: PredictRepository, val use
                         errorMessage.setValue("A network problem occurred")
                     }
                     else -> {
-                        errorMessage.setValue(e.message.toString())
+                        errorMessage.setValue("Umm sorry, we can't detect your image")
                     }
                 }
             }
@@ -69,7 +69,7 @@ class PredictDiseaseViewModel(private val repository: PredictRepository, val use
                     errorMessage.setValue(errorResponse.message)
                     errorTokenStatus.setValue(true)
                 }
-            } catch (e: java.lang.Exception) {
+            } catch (e: Exception) {
                 errorStatus.setValue(true)
                 errorTokenStatus.setValue(true)
                 errorMessage.setValue("Your token is expired, Make sure you only log in on 1 device")
